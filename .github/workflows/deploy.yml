@@ -39,6 +39,9 @@ jobs:
 
   deploy:
     needs: build
+    # Only deploy from main — the github-pages environment is protected to main.
+    # On other branches we still build above (for CI validation) but skip deploy.
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

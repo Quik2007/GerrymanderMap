@@ -4,7 +4,7 @@ import { feature } from 'topojson-client';
 import type { Topology } from 'topojson-specification';
 import type { FeatureCollection, Feature, Geometry } from 'geojson';
 import type { Party } from '../data/types';
-import { PARTY_COLOR, PARTY_COLOR_DEEP } from '../lib/visuals';
+import { PARTY_COLOR } from '../lib/visuals';
 
 interface DistrictProps {
   district: number | null;
@@ -16,17 +16,17 @@ interface Props {
   topology: Topology;
   /** Party prediction per district number (parties[N-1] for district N). */
   parties: Party[];
+  /** The party array from the *other* map — used to dim districts whose party didn't change. */
+  compareTo: Party[];
   title: string;
   subtitle: string;
   seats: { D: number; R: number };
-  /** Use deeper variant of party colors (typically for "after"). */
-  deep?: boolean;
 }
 
-const W = 560;
-const H = 380;
+const W = 700;
+const H = 460;
 
-export function DistrictMap({ topology, parties, title, subtitle, seats, deep }: Props) {
+export function DistrictMap({ topology, parties, compareTo, title, subtitle, seats }: Props) {
   const [hover, setHover] = useState<number | null>(null);
 
   const features = useMemo<Feature<Geometry, DistrictProps>[]>(() => {
@@ -45,12 +45,13 @@ export function DistrictMap({ topology, parties, title, subtitle, seats, deep }:
     return geoPath(proj);
   }, [features]);
 
-  const palette = deep ? PARTY_COLOR_DEEP : PARTY_COLOR;
-
-  const hoverLabel = (() => {
+  const hoverInfo = (() => {
     if (hover == null) return null;
     const p = parties[hover - 1];
-    return p === 'D' ? 'D-leaning' : p === 'R' ? 'R-leaning' : 'unknown lean';
+    const other = compareTo[hover - 1];
+    const changed = p && other && p !== other;
+    const lean = p === 'D' ? 'D-leaning' : p === 'R' ? 'R-leaning' : 'unknown lean';
+    return { lean, changed };
   })();
 
   return (
@@ -79,7 +80,11 @@ export function DistrictMap({ topology, parties, title, subtitle, seats, deep }:
               const distNum = Number(f.properties?.district ?? 0);
               const idx = distNum - 1;
               const party: Party | undefined = parties[idx];
-              const fill = party ? palette[party] : '#5e574e';
+              const other: Party | undefined = compareTo[idx];
+              const fill = party ? PARTY_COLOR[party] : '#5e574e';
+              // Same party in before and after → unchanged → render slightly muted
+              const isChanged = !!(party && other && party !== other);
+              const opacity = !party ? 1 : isChanged ? 1 : 0.55;
               const isHover = hover === distNum;
               const d = pathGen(f) ?? '';
               return (
@@ -87,9 +92,10 @@ export function DistrictMap({ topology, parties, title, subtitle, seats, deep }:
                   key={distNum || Math.random()}
                   d={d}
                   fill={fill}
+                  fillOpacity={opacity}
                   stroke={isHover ? '#f6f1e8' : '#262422'}
                   strokeWidth={isHover ? 1.8 : 0.7}
-                  style={{ cursor: 'pointer', transition: 'stroke 120ms' }}
+                  style={{ cursor: 'pointer', transition: 'stroke 120ms, fill-opacity 180ms' }}
                   onMouseEnter={() => setHover(distNum)}
                   onMouseLeave={() => setHover(null)}
                 />
@@ -97,10 +103,13 @@ export function DistrictMap({ topology, parties, title, subtitle, seats, deep }:
             })}
           </g>
         </svg>
-        {hoverLabel && (
+        {hoverInfo && (
           <div className="pointer-events-none absolute left-1 bottom-1 rounded-md border border-hairline bg-page-2/95 px-2 py-1 text-[11px] text-ink-100 shadow-lg backdrop-blur">
             District {hover}
-            <span className="ml-1.5 text-ink-400">· {hoverLabel}</span>
+            <span className="ml-1.5 text-ink-400">· {hoverInfo.lean}</span>
+            {hoverInfo.changed && (
+              <span className="ml-1.5 text-ink-300 font-medium">· flipped</span>
+            )}
           </div>
         )}
       </div>

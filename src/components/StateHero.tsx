@@ -50,24 +50,53 @@ export function StateHero({ info }: Props) {
 
 function StatusBadge({ info }: { info: StateInfo }) {
   const isFailed = info.status === 'failed';
-  const partyColor = info.favors ? PARTY_COLOR[info.favors] : '#9a9285';
+  const isPlanned = info.status === 'planned';
+  const delta = seatDelta(info);
+  const magnitude = Math.max(Math.abs(delta.D), Math.abs(delta.R));
+  const direction: 'D' | 'R' | null =
+    delta.D > 0 ? 'D' : delta.R > 0 ? 'R' : info.favors ?? null;
+
+  const partyColor = direction ? PARTY_COLOR[direction] : '#9a9285';
   const dot = isFailed ? '#9a9285' : partyColor;
   const text = isFailed
     ? '#d6cfc1'
-    : info.favors
-      ? info.favors === 'D'
-        ? '#7aaeff'
-        : '#fb8a8a'
-      : '#d6cfc1';
+    : direction === 'D'
+      ? '#7aaeff'
+      : direction === 'R'
+        ? '#fb8a8a'
+        : '#d6cfc1';
+
+  let magnitudeLabel: string | null = null;
+  if (magnitude > 0 && direction) {
+    const noun =
+      isFailed ? 'blocked' : isPlanned ? 'target' : 'shift';
+    magnitudeLabel = `+${magnitude} ${partyLabel(direction)} seat${
+      magnitude === 1 ? '' : 's'
+    } ${noun}`;
+  } else if (info.favors && !direction) {
+    // Unusual: passed map but no seat change, just orientation noted
+    magnitudeLabel = `favors ${partyLabel(info.favors)} · no net shift`;
+  }
+
   return (
     <span
-      className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest"
+      className="inline-flex items-center gap-2 text-sm font-medium"
       style={{ color: text }}
     >
-      <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: dot }} aria-hidden />
-      {statusLabel(info.status)}
-      {info.favors && !isFailed ? ` · favors ${partyLabel(info.favors)}` : null}
-      {isFailed && info.favors ? ` · ${partyLabel(info.favors)} attempt` : null}
+      <span
+        className="inline-block h-1.5 w-1.5 rounded-full"
+        style={{ background: dot }}
+        aria-hidden
+      />
+      <span className="uppercase tracking-widest text-xs">{statusLabel(info.status)}</span>
+      {magnitudeLabel && (
+        <>
+          <span className="text-ink-600" aria-hidden>
+            ·
+          </span>
+          <span className="tabular-nums">{magnitudeLabel}</span>
+        </>
+      )}
     </span>
   );
 }

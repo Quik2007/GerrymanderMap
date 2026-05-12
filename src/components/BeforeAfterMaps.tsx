@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Topology } from 'topojson-specification';
 import type { StateInfo, DistrictBreakdown, Party } from '../data/types';
-import { PARTY_COLOR, PARTY_COLOR_DEEP } from '../lib/visuals';
+import { PARTY_COLOR } from '../lib/visuals';
 import { DistrictMap } from './DistrictMap';
 
 /** Which states have real district TopoJSON in public/districts/. */
@@ -68,12 +68,7 @@ export function BeforeAfterMaps({ info }: Props) {
       {!hasReal ? (
         <>
           <Fallback title="Before" subtitle="Previous map · schematic" breakdown={info.before} />
-          <Fallback
-            title="After"
-            subtitle="New / proposed · schematic"
-            breakdown={info.after}
-            deep
-          />
+          <Fallback title="After" subtitle="New / proposed · schematic" breakdown={info.after} />
           <p className="text-sm text-ink-500 md:col-span-2">
             Real district boundaries for this state aren&rsquo;t bundled yet — showing a schematic
             per-seat representation instead.
@@ -87,12 +82,7 @@ export function BeforeAfterMaps({ info }: Props) {
       ) : !maps.before || !maps.after ? (
         <>
           <Fallback title="Before" subtitle="Previous map · schematic" breakdown={info.before} />
-          <Fallback
-            title="After"
-            subtitle="New / current · schematic"
-            breakdown={info.after}
-            deep
-          />
+          <Fallback title="After" subtitle="New / current · schematic" breakdown={info.after} />
           <p className="text-sm text-ink-500 md:col-span-2">
             Couldn&rsquo;t load real district boundaries — falling back to schematic.
           </p>
@@ -102,6 +92,7 @@ export function BeforeAfterMaps({ info }: Props) {
           <DistrictMap
             topology={maps.before}
             parties={info.before.districts}
+            compareTo={info.after.districts}
             title="Before"
             subtitle="Previous congressional map · 117th Congress"
             seats={info.before.seats}
@@ -109,14 +100,14 @@ export function BeforeAfterMaps({ info }: Props) {
           <DistrictMap
             topology={maps.after}
             parties={info.after.districts}
+            compareTo={info.before.districts}
             title="After"
             subtitle="Current map · 119th Congress"
             seats={info.after.seats}
-            deep
           />
           <p className="text-xs text-ink-500 md:col-span-2">
-            Boundaries via Jeffrey B. Lewis&rsquo; GIS collection. Very recent mid-decade redraws
-            may not be reflected in the source dataset yet.
+            Districts that didn&rsquo;t change party between the two maps are dimmed; flipped
+            districts are at full saturation. Boundaries via Jeffrey B. Lewis&rsquo; GIS collection.
           </p>
         </>
       )}
@@ -137,12 +128,10 @@ function Fallback({
   title,
   subtitle,
   breakdown,
-  deep,
 }: {
   title: string;
   subtitle: string;
   breakdown: DistrictBreakdown;
-  deep?: boolean;
 }) {
   return (
     <div>
@@ -157,14 +146,13 @@ function Fallback({
           <span className="font-semibold text-rep-400">{breakdown.seats.R}R</span>
         </div>
       </div>
-      <TileGrid districts={breakdown.districts} deep={deep} />
+      <TileGrid districts={breakdown.districts} />
       <SeatBar seats={breakdown.seats} />
     </div>
   );
 }
 
-function TileGrid({ districts, deep }: { districts: Party[]; deep?: boolean }) {
-  const palette = deep ? PARTY_COLOR_DEEP : PARTY_COLOR;
+function TileGrid({ districts }: { districts: Party[] }) {
   const cols = districts.length <= 8 ? 4 : districts.length <= 17 ? 6 : 8;
   return (
     <div
@@ -175,7 +163,7 @@ function TileGrid({ districts, deep }: { districts: Party[]; deep?: boolean }) {
         <div
           key={i}
           className="relative aspect-square overflow-hidden rounded-md text-[10px] font-semibold text-white/90"
-          style={{ background: palette[p] }}
+          style={{ background: PARTY_COLOR[p] }}
           title={`District ${i + 1} · ${p === 'D' ? 'D-leaning' : 'R-leaning'}`}
         >
           <span className="absolute left-1 top-1 leading-none">{i + 1}</span>
