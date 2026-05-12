@@ -1,15 +1,15 @@
 import type { Party, Status, StateInfo } from '../data/types';
 
-/** Brand colors. */
+/** Party colors — nudged slightly for legibility on warm dark grey. */
 export const PARTY_COLOR: Record<Party, string> = {
-  D: '#3b82f6', // blue-500
-  R: '#ef4444', // red-500
+  D: '#5b9cf5',
+  R: '#ef5757',
 };
 
-/** Darker variant used for the "after" (post-redraw) and for selected outlines. */
+/** Deeper variant used for the "after" map. */
 export const PARTY_COLOR_DEEP: Record<Party, string> = {
-  D: '#1d4ed8', // blue-700
-  R: '#b91c1c', // red-700
+  D: '#1f4eb8',
+  R: '#b91c1c',
 };
 
 export const PARTY_COLOR_SOFT: Record<Party, string> = {
@@ -17,13 +17,11 @@ export const PARTY_COLOR_SOFT: Record<Party, string> = {
   R: '#7f1d1d',
 };
 
-export const NEUTRAL = '#1e293b'; // ink-800
-export const NEUTRAL_HOVER = '#334155'; // ink-700
+/** Inactive state on the US map — just above the page background. */
+export const NEUTRAL = '#33302c';
+export const NEUTRAL_HOVER = '#403c37';
+export const PAGE_BG = '#262422';
 
-/**
- * Fill spec for a state polygon on the US map. Returns either a flat color
- * or a reference to one of the SVG <pattern> ids defined in <MapPatterns>.
- */
 export function stateFill(info: StateInfo | undefined): string {
   if (!info || info.status === 'none' || info.favors == null) {
     return NEUTRAL;
@@ -31,13 +29,10 @@ export function stateFill(info: StateInfo | undefined): string {
   const party = info.favors;
   switch (info.status) {
     case 'passed':
-      // Solid party color
       return PARTY_COLOR[party];
     case 'planned':
-      // Striped pattern referencing party color
       return `url(#pattern-planned-${party})`;
     case 'failed':
-      // Desaturated, outline-only feel via soft fill
       return PARTY_COLOR_SOFT[party];
     default:
       return NEUTRAL;
@@ -55,13 +50,6 @@ export function statusLabel(status: Status): string {
     case 'none':
       return 'No change';
   }
-}
-
-export function statusTextColor(info: StateInfo): string {
-  if (info.status === 'failed') return 'text-ink-400';
-  if (info.status === 'planned') return info.favors === 'D' ? 'text-dem-400' : 'text-rep-400';
-  if (info.favors == null) return 'text-ink-300';
-  return info.favors === 'D' ? 'text-dem-400' : 'text-rep-400';
 }
 
 export function partyLabel(p: Party): string {

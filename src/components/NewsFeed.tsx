@@ -6,13 +6,12 @@ import { CODE_TO_NAME } from '../lib/stateNames';
 interface Props {
   /** When set, only show news for this state. */
   filterState: string | null;
-  onClearFilter: () => void;
 }
 
 type Tag = NonNullable<NewsItem['tag']>;
 const TAGS: Tag[] = ['court', 'legislature', 'ballot', 'analysis', 'executive'];
 
-export function NewsFeed({ filterState, onClearFilter }: Props) {
+export function NewsFeed({ filterState }: Props) {
   const [activeTags, setActiveTags] = useState<Set<Tag>>(new Set());
   const [query, setQuery] = useState('');
 
@@ -39,39 +38,27 @@ export function NewsFeed({ filterState, onClearFilter }: Props) {
   }, [filterState, activeTags, query]);
 
   const heading = filterState
-    ? `${CODE_TO_NAME[filterState] ?? filterState} · Updates`
-    : 'National & state updates';
-
-  const totalForScope = useMemo(() => {
-    return filterState ? NEWS.filter((n) => n.state === filterState).length : NEWS.length;
-  }, [filterState]);
+    ? `${CODE_TO_NAME[filterState] ?? filterState} · updates`
+    : 'Latest';
 
   return (
-    <section className="card">
-      <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink-800/80 px-5 py-4">
-        <div>
-          <div className="text-xs uppercase tracking-widest text-ink-400">News feed</div>
-          <h2 className="font-display text-xl font-semibold text-ink-50">{heading}</h2>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-ink-400 tabular-nums">
-            {items.length} of {totalForScope}
-          </span>
-          {filterState && (
-            <button type="button" onClick={onClearFilter} className="btn-ghost">
-              Show all news
-            </button>
-          )}
-        </div>
+    <section>
+      <header className="mb-6 flex flex-wrap items-baseline justify-between gap-3">
+        <h2 className="font-serif text-2xl font-semibold tracking-tighter text-ink-50 md:text-3xl">
+          {heading}
+        </h2>
+        <span className="text-xs text-ink-500 tabular-nums">
+          {items.length} {items.length === 1 ? 'item' : 'items'}
+        </span>
       </header>
 
-      <div className="flex flex-wrap items-center gap-2 border-b border-ink-800/80 px-5 py-3">
+      <div className="mb-6 flex flex-wrap items-center gap-3">
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search headlines, sources…"
-          className="min-w-0 flex-1 rounded-md border border-ink-700 bg-ink-900/60 px-3 py-1.5 text-sm text-ink-100 placeholder:text-ink-500 outline-none transition focus:border-ink-500 focus:ring-2 focus:ring-dem-500/30"
+          className="min-w-0 flex-1 rounded-md border border-hairline bg-page-2/60 px-3 py-1.5 text-sm text-ink-100 placeholder:text-ink-500 outline-none transition focus:border-hairline-strong focus:ring-1 focus:ring-dem-500/40"
         />
         <div className="flex flex-wrap items-center gap-1.5">
           {TAGS.map((tag) => (
@@ -86,7 +73,7 @@ export function NewsFeed({ filterState, onClearFilter }: Props) {
             <button
               type="button"
               onClick={() => setActiveTags(new Set())}
-              className="text-xs text-ink-400 underline-offset-2 hover:text-ink-200 hover:underline"
+              className="text-xs text-ink-500 underline-offset-2 hover:text-ink-200 hover:underline"
             >
               clear
             </button>
@@ -95,11 +82,11 @@ export function NewsFeed({ filterState, onClearFilter }: Props) {
       </div>
 
       {items.length === 0 ? (
-        <div className="px-5 py-10 text-center text-sm text-ink-400">
+        <div className="py-12 text-center text-sm text-ink-500">
           No items match the current filters.
         </div>
       ) : (
-        <ol className="divide-y divide-ink-800/80">
+        <ol className="divide-y divide-hairline">
           {items.map((n) => (
             <NewsRow key={n.id} item={n} showStateBadge={!filterState} />
           ))}
@@ -111,43 +98,35 @@ export function NewsFeed({ filterState, onClearFilter }: Props) {
 
 const TAG_STYLES: Record<Tag, { active: string; inactive: string }> = {
   court: {
-    active: 'bg-amber-500/20 text-amber-200 border-amber-500/60',
-    inactive: 'border-amber-500/30 text-amber-300/80 hover:border-amber-500/50',
+    active: 'bg-amber-500/15 text-amber-200 border-amber-500/40',
+    inactive: 'border-amber-500/20 text-amber-300/60 hover:border-amber-500/40 hover:text-amber-300/90',
   },
   legislature: {
-    active: 'bg-emerald-500/20 text-emerald-200 border-emerald-500/60',
-    inactive: 'border-emerald-500/30 text-emerald-300/80 hover:border-emerald-500/50',
+    active: 'bg-emerald-500/15 text-emerald-200 border-emerald-500/40',
+    inactive: 'border-emerald-500/20 text-emerald-300/60 hover:border-emerald-500/40 hover:text-emerald-300/90',
   },
   ballot: {
-    active: 'bg-violet-500/20 text-violet-200 border-violet-500/60',
-    inactive: 'border-violet-500/30 text-violet-300/80 hover:border-violet-500/50',
+    active: 'bg-violet-500/15 text-violet-200 border-violet-500/40',
+    inactive: 'border-violet-500/20 text-violet-300/60 hover:border-violet-500/40 hover:text-violet-300/90',
   },
   analysis: {
-    active: 'bg-sky-500/20 text-sky-200 border-sky-500/60',
-    inactive: 'border-sky-500/30 text-sky-300/80 hover:border-sky-500/50',
+    active: 'bg-sky-500/15 text-sky-200 border-sky-500/40',
+    inactive: 'border-sky-500/20 text-sky-300/60 hover:border-sky-500/40 hover:text-sky-300/90',
   },
   executive: {
-    active: 'bg-rose-500/20 text-rose-200 border-rose-500/60',
-    inactive: 'border-rose-500/30 text-rose-300/80 hover:border-rose-500/50',
+    active: 'bg-rose-500/15 text-rose-200 border-rose-500/40',
+    inactive: 'border-rose-500/20 text-rose-300/60 hover:border-rose-500/40 hover:text-rose-300/90',
   },
 };
 
-function TagToggle({
-  tag,
-  active,
-  onClick,
-}: {
-  tag: Tag;
-  active: boolean;
-  onClick: () => void;
-}) {
+function TagToggle({ tag, active, onClick }: { tag: Tag; active: boolean; onClick: () => void }) {
   const s = TAG_STYLES[tag];
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`chip border transition ${active ? s.active : `bg-transparent ${s.inactive}`}`}
+      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition ${active ? s.active : `bg-transparent ${s.inactive}`}`}
     >
       {tag}
     </button>
@@ -155,15 +134,21 @@ function TagToggle({
 }
 
 function NewsRow({ item, showStateBadge }: { item: NewsItem; showStateBadge: boolean }) {
+  let host = '';
+  try {
+    host = new URL(item.source.url).hostname.replace(/^www\./, '');
+  } catch {
+    host = item.source.name;
+  }
   return (
-    <li className="px-5 py-4 transition hover:bg-ink-900/60">
-      <div className="mb-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-400">
+    <li className="py-5 first:pt-0 last:pb-0">
+      <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-500">
         <time dateTime={item.date} className="tabular-nums">
           {formatDate(item.date)}
         </time>
         {showStateBadge && (
           <>
-            <span className="text-ink-600">·</span>
+            <span className="text-ink-700">·</span>
             <span className="font-medium text-ink-300">
               {item.state ? (CODE_TO_NAME[item.state] ?? item.state) : 'National'}
             </span>
@@ -171,28 +156,33 @@ function NewsRow({ item, showStateBadge }: { item: NewsItem; showStateBadge: boo
         )}
         {item.tag && <TagPill tag={item.tag} />}
       </div>
-      <h3 className="font-display text-base font-semibold leading-snug text-ink-50">
+      <h3 className="font-serif text-xl font-semibold leading-snug text-ink-50">
         {item.headline}
       </h3>
-      <p className="mt-1 text-sm leading-relaxed text-ink-300">{item.description}</p>
-      <div className="mt-2 text-xs text-ink-400">
-        Source:{' '}
-        <a
-          href={item.source.url}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="font-medium text-ink-200 underline-offset-2 hover:text-ink-50 hover:underline"
-        >
-          {item.source.name}
-        </a>
-      </div>
+      <p className="mt-1.5 max-w-prose text-base leading-relaxed text-ink-200">
+        {item.description}
+      </p>
+      <a
+        href={item.source.url}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="mt-2 inline-flex items-baseline gap-1.5 text-xs text-ink-400 underline-offset-2 transition hover:text-ink-100 hover:underline"
+      >
+        <span className="text-ink-500">Source:</span>
+        <span className="font-medium">{item.source.name}</span>
+        <span className="text-ink-600">· {host}</span>
+      </a>
     </li>
   );
 }
 
 function TagPill({ tag }: { tag: Tag }) {
   const s = TAG_STYLES[tag];
-  return <span className={`chip border ${s.active}`}>{tag}</span>;
+  return (
+    <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${s.active}`}>
+      {tag}
+    </span>
+  );
 }
 
 function formatDate(iso: string): string {

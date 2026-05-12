@@ -14,7 +14,7 @@ interface DistrictProps {
 
 interface Props {
   topology: Topology;
-  /** Party prediction per district index (district number 1..N → parties[N-1]). */
+  /** Party prediction per district number (parties[N-1] for district N). */
   parties: Party[];
   title: string;
   subtitle: string;
@@ -23,8 +23,8 @@ interface Props {
   deep?: boolean;
 }
 
-const WIDTH = 360;
-const HEIGHT = 240;
+const W = 560;
+const H = 380;
 
 export function DistrictMap({ topology, parties, title, subtitle, seats, deep }: Props) {
   const [hover, setHover] = useState<number | null>(null);
@@ -41,29 +41,35 @@ export function DistrictMap({ topology, parties, title, subtitle, seats, deep }:
       type: 'FeatureCollection',
       features,
     };
-    const proj = geoMercator().fitSize([WIDTH - 8, HEIGHT - 8], fc);
+    const proj = geoMercator().fitSize([W - 8, H - 8], fc);
     return geoPath(proj);
   }, [features]);
 
   const palette = deep ? PARTY_COLOR_DEEP : PARTY_COLOR;
 
+  const hoverLabel = (() => {
+    if (hover == null) return null;
+    const p = parties[hover - 1];
+    return p === 'D' ? 'D-leaning' : p === 'R' ? 'R-leaning' : 'unknown lean';
+  })();
+
   return (
-    <div className="rounded-xl border border-ink-800 bg-ink-950/60 p-4">
-      <div className="mb-2 flex items-baseline justify-between">
+    <div>
+      <div className="mb-3 flex items-baseline justify-between gap-3">
         <div>
-          <div className="font-display text-lg font-semibold text-ink-50">{title}</div>
-          <div className="text-xs text-ink-400">{subtitle}</div>
+          <div className="font-serif text-xl font-semibold text-ink-50">{title}</div>
+          <div className="text-xs text-ink-500">{subtitle}</div>
         </div>
-        <div className="text-right text-sm tabular-nums">
+        <div className="text-sm tabular-nums">
           <span className="font-semibold text-dem-400">{seats.D}D</span>
-          <span className="mx-1.5 text-ink-500">·</span>
+          <span className="mx-1.5 text-ink-600">·</span>
           <span className="font-semibold text-rep-400">{seats.R}R</span>
         </div>
       </div>
 
       <div className="relative">
         <svg
-          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+          viewBox={`0 0 ${W} ${H}`}
           className="block h-auto w-full"
           role="img"
           aria-label={`${title} district map`}
@@ -73,7 +79,7 @@ export function DistrictMap({ topology, parties, title, subtitle, seats, deep }:
               const distNum = Number(f.properties?.district ?? 0);
               const idx = distNum - 1;
               const party: Party | undefined = parties[idx];
-              const fill = party ? palette[party] : '#475569'; // ink-600 for unknown
+              const fill = party ? palette[party] : '#5e574e';
               const isHover = hover === distNum;
               const d = pathGen(f) ?? '';
               return (
@@ -81,8 +87,8 @@ export function DistrictMap({ topology, parties, title, subtitle, seats, deep }:
                   key={distNum || Math.random()}
                   d={d}
                   fill={fill}
-                  stroke={isHover ? '#f8fafc' : '#0a0f1e'}
-                  strokeWidth={isHover ? 1.6 : 0.6}
+                  stroke={isHover ? '#f6f1e8' : '#262422'}
+                  strokeWidth={isHover ? 1.8 : 0.7}
                   style={{ cursor: 'pointer', transition: 'stroke 120ms' }}
                   onMouseEnter={() => setHover(distNum)}
                   onMouseLeave={() => setHover(null)}
@@ -91,16 +97,12 @@ export function DistrictMap({ topology, parties, title, subtitle, seats, deep }:
             })}
           </g>
         </svg>
-        {hover !== null && (() => {
-          const p = parties[hover - 1];
-          const label = p === 'D' ? 'D-leaning' : p === 'R' ? 'R-leaning' : 'unknown lean';
-          return (
-            <div className="pointer-events-none absolute left-2 bottom-2 rounded-md border border-ink-700 bg-ink-900/95 px-2 py-1 text-[11px] text-ink-100 shadow-lg backdrop-blur">
-              District {hover}
-              <span className="ml-1.5 text-ink-400">· {label}</span>
-            </div>
-          );
-        })()}
+        {hoverLabel && (
+          <div className="pointer-events-none absolute left-1 bottom-1 rounded-md border border-hairline bg-page-2/95 px-2 py-1 text-[11px] text-ink-100 shadow-lg backdrop-blur">
+            District {hover}
+            <span className="ml-1.5 text-ink-400">· {hoverLabel}</span>
+          </div>
+        )}
       </div>
 
       <SeatBar seats={seats} />
@@ -113,7 +115,7 @@ function SeatBar({ seats }: { seats: { D: number; R: number } }) {
   const dPct = (seats.D / total) * 100;
   return (
     <div
-      className="mt-3 h-2 w-full overflow-hidden rounded-full bg-ink-800"
+      className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-page-2"
       role="img"
       aria-label={`${seats.D} Democratic seats, ${seats.R} Republican seats`}
     >

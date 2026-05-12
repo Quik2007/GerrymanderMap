@@ -63,92 +63,77 @@ export function BeforeAfterMaps({ info }: Props) {
     };
   }, [info.code, hasReal]);
 
-  if (!hasReal) {
-    return (
-      <>
-        <DistrictPanelFallback title="Before" subtitle="Previous map" breakdown={info.before} />
-        <DistrictPanelFallback
-          title="After"
-          subtitle="New / proposed map"
-          breakdown={info.after}
-          deep
-        />
-        <DataNote
-          message="Real district boundaries for this state aren't bundled yet — showing a schematic per-seat representation instead."
-        />
-      </>
-    );
-  }
-
-  if (maps.loading) {
-    return (
-      <>
-        <Skeleton title="Before" />
-        <Skeleton title="After" />
-      </>
-    );
-  }
-
-  if (!maps.before || !maps.after) {
-    return (
-      <>
-        <DistrictPanelFallback title="Before" subtitle="Previous map" breakdown={info.before} />
-        <DistrictPanelFallback
-          title="After"
-          subtitle="New / proposed map"
-          breakdown={info.after}
-          deep
-        />
-        <DataNote message="Couldn't load real district boundaries — falling back to schematic." />
-      </>
-    );
-  }
-
   return (
-    <>
-      <DistrictMap
-        topology={maps.before}
-        parties={info.before.districts}
-        title="Before"
-        subtitle="Previous congressional map"
-        seats={info.before.seats}
-      />
-      <DistrictMap
-        topology={maps.after}
-        parties={info.after.districts}
-        title="After"
-        subtitle="New / current map"
-        seats={info.after.seats}
-        deep
-      />
-      <DataNote
-        message="District boundaries via Jeffrey B. Lewis' GIS collection. Very recent mid-decade redraws may not be reflected in the source dataset yet."
-      />
-    </>
+    <div className="grid gap-10 md:grid-cols-2 md:gap-12">
+      {!hasReal ? (
+        <>
+          <Fallback title="Before" subtitle="Previous map · schematic" breakdown={info.before} />
+          <Fallback
+            title="After"
+            subtitle="New / proposed · schematic"
+            breakdown={info.after}
+            deep
+          />
+          <p className="text-sm text-ink-500 md:col-span-2">
+            Real district boundaries for this state aren&rsquo;t bundled yet — showing a schematic
+            per-seat representation instead.
+          </p>
+        </>
+      ) : maps.loading ? (
+        <>
+          <Skeleton title="Before" />
+          <Skeleton title="After" />
+        </>
+      ) : !maps.before || !maps.after ? (
+        <>
+          <Fallback title="Before" subtitle="Previous map · schematic" breakdown={info.before} />
+          <Fallback
+            title="After"
+            subtitle="New / current · schematic"
+            breakdown={info.after}
+            deep
+          />
+          <p className="text-sm text-ink-500 md:col-span-2">
+            Couldn&rsquo;t load real district boundaries — falling back to schematic.
+          </p>
+        </>
+      ) : (
+        <>
+          <DistrictMap
+            topology={maps.before}
+            parties={info.before.districts}
+            title="Before"
+            subtitle="Previous congressional map · 117th Congress"
+            seats={info.before.seats}
+          />
+          <DistrictMap
+            topology={maps.after}
+            parties={info.after.districts}
+            title="After"
+            subtitle="Current map · 119th Congress"
+            seats={info.after.seats}
+            deep
+          />
+          <p className="text-xs text-ink-500 md:col-span-2">
+            Boundaries via Jeffrey B. Lewis&rsquo; GIS collection. Very recent mid-decade redraws
+            may not be reflected in the source dataset yet.
+          </p>
+        </>
+      )}
+    </div>
   );
 }
 
 function Skeleton({ title }: { title: string }) {
   return (
-    <div className="rounded-xl border border-ink-800 bg-ink-950/60 p-4">
-      <div className="mb-2 flex items-baseline justify-between">
-        <div className="font-display text-lg font-semibold text-ink-50">{title}</div>
-      </div>
-      <div className="h-[240px] w-full animate-pulse rounded-md bg-ink-900/60" />
+    <div>
+      <div className="mb-3 text-sm font-semibold text-ink-300">{title}</div>
+      <div className="h-[340px] w-full animate-pulse rounded-md bg-page-2" />
     </div>
   );
 }
 
-function DataNote({ message }: { message: string }) {
-  return (
-    <p className="text-xs text-ink-400 md:col-span-2">
-      <span className="font-medium text-ink-300">Note:</span> {message}
-    </p>
-  );
-}
-
-/** Schematic per-seat tile grid for states without real boundary data. */
-function DistrictPanelFallback({
+function Fallback({
   title,
   subtitle,
   breakdown,
@@ -160,15 +145,15 @@ function DistrictPanelFallback({
   deep?: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-ink-800 bg-ink-950/60 p-4">
-      <div className="mb-2 flex items-baseline justify-between">
+    <div>
+      <div className="mb-3 flex items-baseline justify-between gap-3">
         <div>
-          <div className="font-display text-lg font-semibold text-ink-50">{title}</div>
-          <div className="text-xs text-ink-400">{subtitle} · schematic</div>
+          <div className="font-serif text-xl font-semibold text-ink-50">{title}</div>
+          <div className="text-xs text-ink-500">{subtitle}</div>
         </div>
-        <div className="text-right text-sm tabular-nums">
+        <div className="text-sm tabular-nums">
           <span className="font-semibold text-dem-400">{breakdown.seats.D}D</span>
-          <span className="mx-1.5 text-ink-500">·</span>
+          <span className="mx-1.5 text-ink-600">·</span>
           <span className="font-semibold text-rep-400">{breakdown.seats.R}R</span>
         </div>
       </div>
@@ -183,7 +168,7 @@ function TileGrid({ districts, deep }: { districts: Party[]; deep?: boolean }) {
   const cols = districts.length <= 8 ? 4 : districts.length <= 17 ? 6 : 8;
   return (
     <div
-      className="my-3 grid gap-1.5"
+      className="my-1 grid gap-1.5"
       style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
     >
       {districts.map((p, i) => (
@@ -206,7 +191,7 @@ function SeatBar({ seats }: { seats: { D: number; R: number } }) {
   const dPct = (seats.D / total) * 100;
   return (
     <div
-      className="mt-3 h-2 w-full overflow-hidden rounded-full bg-ink-800"
+      className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-page-2"
       role="img"
       aria-label={`${seats.D} Democratic seats, ${seats.R} Republican seats`}
     >
