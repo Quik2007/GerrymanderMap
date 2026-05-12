@@ -8,7 +8,16 @@ import type { StateInfo } from '../data/types';
 import { NAME_TO_CODE } from '../lib/stateNames';
 import { stateFill, NEUTRAL_HOVER, seatDelta } from '../lib/visuals';
 
-const GEO_URL = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
+/**
+ * Same-origin, mapshaper-simplified copy of the us-atlas/states-10m geometry
+ * (built into public/ — see scripts/build-districts.mjs companion logic).
+ * About 23 KB vs ~110 KB from the jsdelivr CDN, and no extra cross-origin
+ * connection in the critical render path.
+ */
+function geoUrl(): string {
+  const base = import.meta.env.BASE_URL ?? '/';
+  return `${base}us-states.json`;
+}
 
 const VB_W = 1100;
 const VB_H = 680;
@@ -60,10 +69,10 @@ export function USMap({ selected, onSelect }: Props) {
 
   const pathGen = useMemo(() => geoPath(projection), [projection]);
 
-  // One fetch per page load (us-atlas hash-busts at the version URL anyway).
+  // One fetch per page load — same-origin, gzipped TopoJSON.
   useEffect(() => {
     let cancelled = false;
-    fetch(GEO_URL)
+    fetch(geoUrl())
       .then((r) => r.json() as Promise<Topology>)
       .then((topo) => {
         if (cancelled) return;
@@ -178,6 +187,7 @@ export function USMap({ selected, onSelect }: Props) {
                   if (!code || !info || info.status === 'none') return;
                   onSelect(code);
                 }}
+                role="img"
                 aria-label={info ? `${info.name}, status ${info.status}` : name}
               />
             );

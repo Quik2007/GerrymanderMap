@@ -8,15 +8,19 @@
   --color-hairline: #3a3631;
   --color-hairline-strong: #4a453f;
 
-  /* Type colors */
+  /* Type colors. ink-400 and lighter must clear WCAG-AA 4.5:1 on bg-page
+     (#262422) for normal text; ink-500 also tuned to clear that threshold
+     because it's used for captions and small UI labels. ink-600 and below
+     are decorative-only (separators, very faint icons, code) — they do
+     NOT need to clear AA. */
   --color-ink-50: #f6f1e8;
   --color-ink-100: #ebe5d9;
   --color-ink-200: #d6cfc1;
   --color-ink-300: #b8b0a2;
-  --color-ink-400: #9a9285;
-  --color-ink-500: #7a7368;
-  --color-ink-600: #5e574e;
-  --color-ink-700: #46413a;
+  --color-ink-400: #b3a999;
+  --color-ink-500: #a89b8c;
+  --color-ink-600: #807468;
+  --color-ink-700: #5e574e;
   --color-ink-800: #322f2c;
   --color-ink-900: #262422;
   --color-ink-950: #1c1a18;

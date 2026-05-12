@@ -127,23 +127,23 @@ export function NewsFeed({ filterState }: Props) {
 const TAG_STYLES: Record<Tag, { active: string; inactive: string }> = {
   court: {
     active: 'bg-amber-500/15 text-amber-200 border-amber-500/40',
-    inactive: 'border-amber-500/20 text-amber-300/60 hover:border-amber-500/40 hover:text-amber-300/90',
+    inactive: 'border-amber-500/20 text-amber-200 hover:border-amber-500/40 hover:bg-amber-500/10',
   },
   legislature: {
     active: 'bg-emerald-500/15 text-emerald-200 border-emerald-500/40',
-    inactive: 'border-emerald-500/20 text-emerald-300/60 hover:border-emerald-500/40 hover:text-emerald-300/90',
+    inactive: 'border-emerald-500/20 text-emerald-200 hover:border-emerald-500/40 hover:bg-emerald-500/10',
   },
   ballot: {
     active: 'bg-violet-500/15 text-violet-200 border-violet-500/40',
-    inactive: 'border-violet-500/20 text-violet-300/60 hover:border-violet-500/40 hover:text-violet-300/90',
+    inactive: 'border-violet-500/20 text-violet-200 hover:border-violet-500/40 hover:bg-violet-500/10',
   },
   analysis: {
     active: 'bg-sky-500/15 text-sky-200 border-sky-500/40',
-    inactive: 'border-sky-500/20 text-sky-300/60 hover:border-sky-500/40 hover:text-sky-300/90',
+    inactive: 'border-sky-500/20 text-sky-200 hover:border-sky-500/40 hover:bg-sky-500/10',
   },
   executive: {
     active: 'bg-rose-500/15 text-rose-200 border-rose-500/40',
-    inactive: 'border-rose-500/20 text-rose-300/60 hover:border-rose-500/40 hover:text-rose-300/90',
+    inactive: 'border-rose-500/20 text-rose-200 hover:border-rose-500/40 hover:bg-rose-500/10',
   },
 };
 
@@ -198,7 +198,7 @@ function NewsRow({ item, showStateBadge }: { item: NewsItem; showStateBadge: boo
       >
         <span className="text-ink-500">Source:</span>
         <span className="font-medium">{item.source.name}</span>
-        <span className="text-ink-600">· {host}</span>
+        <span className="text-ink-500">· {host}</span>
       </a>
     </li>
   );

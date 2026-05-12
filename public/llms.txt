@@ -1,0 +1,49 @@
+# The Mander Tracker
+
+> The Mander Tracker is an interactive tracker of US congressional
+> redistricting and mid-decade gerrymandering across the 2024-2026 cycle.
+> It shows before-and-after district maps for every state that has
+> redrawn (or tried to redraw) its boundaries, plus a deep-linked news
+> timeline of the litigation and legislation that drove the changes.
+> Data is verified through 2026-05-13.
+
+The site is a single page that combines:
+
+- An interactive US map color-coded by redistricting status (passed,
+  planned, failed, no action) and which party benefited.
+- A per-state detail view with side-by-side before/after district maps
+  drawn from the same source as Jeffrey B. Lewis's congressional
+  district GIS collection.
+- A filterable, sourced news feed of the cycle's key events — every
+  source URL is a deep link (SCOTUS opinion PDF, secretary-of-state
+  results page, legislative bill page, or specific article).
+
+## Coverage
+
+- [Full timeline + structured state data](https://mandertracker.com/llms-full.txt): the
+  same headlines, descriptions, dates, and source URLs that appear in
+  the news feed and state cards, in a single readable Markdown file
+  optimised for LLM ingestion.
+- [Interactive map](https://mandertracker.com/): the canonical view.
+
+## Methodology
+
+- States tracked: NC, NY, TX, CA, AL, LA, GA, OH, FL, TN, MO, UT, IL,
+  IN, KS, MD, NM, SC, VA, WI — 20 states with material activity in the
+  current cycle (redraws, court rulings, or failed efforts).
+- Status taxonomy: *passed* (new map in effect), *planned* (announced
+  or in legal limbo), *failed* (effort blocked or challenge defeated),
+  *none* (no action).
+- Per-district party leans are stylized for the chart only — they are
+  not Cook PVI or a rolled-up presidential-result projection. Aggregate
+  seat counts (before/after) match published projections.
+- Geometry source: Jeffrey B. Lewis's congressional district boundaries
+  repository (cutoff 119th Congress, 2024 election). Boundaries for the
+  most recent mid-decade redraws (post-Aug 2025) may pre-date the latest
+  enacted map; the schematic district arrays carry the post-redraw
+  partisan picture.
+
+## Stack
+
+Static SPA built with Vite + React + Tailwind, deployed on Cloudflare
+Workers static assets. No tracking, no analytics, no auth.

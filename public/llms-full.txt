@@ -1,0 +1,392 @@
+# The Mander Tracker — full content snapshot
+
+Generated from the same source-of-truth data that powers
+https://mandertracker.com. Verified through 2026-05-13.
+
+Per-state seat counts are aggregate projections. Source URLs in the
+news section are deep links (court opinion PDFs, secretary-of-state
+results, legislative bill pages, or specific articles).
+
+---
+
+## States
+
+Status taxonomy: *passed* = new map in effect; *planned* = announced
+or pending; *failed* = effort blocked or challenge defeated.
+
+### North Carolina (NC) — passed
+
+- **Status:** passed (favors Republicans)
+- **Seats:** 14 House districts
+- **Projection:** 7D-7R → 3D-11R (+4R)
+- **Effective:** 2026-01-01
+
+Two GOP redraws this cycle. The October 2023 map (SL 2023-145) flipped the 2022 court-imposed 7-7 lines to roughly 10R-4D for 2024. A second redraw passed October 22, 2025 carves out NC-1 to oust Democrat Don Davis, with three Beaufort/Carteret/Craven-area counties shifted in — pushing the projected delegation to 11R-3D for 2026.
+
+### Alabama (AL) — passed
+
+- **Status:** passed (favors Republicans)
+- **Seats:** 7 House districts
+- **Projection:** 2D-5R → 1D-6R (+1R)
+- **Effective:** 2026-05-11
+
+Three status changes in one cycle. The 2023 GOP map → the 2024 court-imposed Milligan remedial map (the second Black-opportunity district that elected Shomari Figures) → the May 11, 2026 SCOTUS vacatur in *Allen v. Caster*, which — in light of *Louisiana v. Callais* — cleared Alabama to revert to its 2023 map for 2026. AL-2 is expected to flip back to the GOP.
+
+### Louisiana (LA) — planned
+
+- **Status:** planned (favors Republicans)
+- **Seats:** 6 House districts
+- **Projection:** 2D-4R → 1D-5R (+1R)
+- **Effective:** 2026-01-01
+
+The 2024 SB 8 map drew a second Black-majority district (LA-6, won by Cleo Fields). On April 29, 2026, SCOTUS struck it down in *Louisiana v. Callais* (6-3, Alito), narrowing the Gingles framework for Section 2 plaintiffs. The state is now drafting a replacement map — almost certainly reverting toward a 5R-1D configuration.
+
+### New York (NY) — passed
+
+- **Status:** passed (favors Democrats)
+- **Seats:** 26 House districts
+- **Projection:** 15D-11R → 18D-8R (+3D)
+- **Effective:** 2024-01-01
+
+After the Independent Redistricting Commission deadlocked and the Court of Appeals ordered redraw in December 2023, the legislature rejected the IRC submission and adopted its own modestly more Democratic map on February 28, 2024. NY-1 (Long Island), NY-3 (former Santos seat), NY-19 and NY-22 all shifted Democratic.
+
+### Ohio (OH) — passed
+
+- **Status:** passed (favors Republicans)
+- **Seats:** 15 House districts
+- **Projection:** 5D-10R → 3D-12R (+2R)
+- **Effective:** 2026-01-01
+
+The 2024 election actually used the 2022 map (which had been invalidated but kept in place out of time). With the legislature missing the September 30, 2025 deadline, the Ohio Redistricting Commission unanimously adopted a new map on October 31, 2025. Marcy Kaptur's 9th (Toledo) is shifted to roughly R+11 — the projected delegation moves toward 12R-3D.
+
+### Georgia (GA) — passed
+
+- **Status:** passed
+- **Seats:** 14 House districts
+- **Projection:** 5D-9R → 5D-9R (no net partisan change)
+- **Effective:** 2024-01-01
+
+After Judge Steve C. Jones ruled the 2021 map violated Section 2 of the VRA in October 2023, the legislature added a majority-Black 6th in western metro Atlanta — but dismantled Lucy McBath's coalition 7th in the same map, preserving the 9R-5D partisan split. Approved December 28, 2023.
+
+### South Carolina (SC) — failed
+
+- **Status:** failed (favors Democrats)
+- **Seats:** 7 House districts
+- **Projection:** 1D-6R → 1D-6R (no net partisan change)
+- **Effective:** 2024-05-23
+
+SCOTUS upheld the 2021 GOP-drawn map 6-3 in *Alexander v. South Carolina State Conference of the NAACP* (May 23, 2024), reversing a lower court's racial-gerrymander finding and tightening the standard plaintiffs must meet to disentangle race from politics. The 6-1 Republican advantage stands.
+
+### Texas (TX) — passed
+
+- **Status:** passed (favors Republicans)
+- **Seats:** 38 House districts
+- **Projection:** 13D-25R → 8D-30R (+5R)
+- **Effective:** 2026-01-01
+
+HB 4 of the second 2025 special session, signed by Gov. Abbott on August 29, 2025, redraws Houston, Dallas, and the Rio Grande Valley to unwind five Democratic-leaning seats. After a District Court injunction, SCOTUS stayed the order 6-3 in December 2025 and reversed in April 2026 — the map is in effect for the 2026 primary and general.
+
+### California (CA) — passed
+
+- **Status:** passed (favors Democrats)
+- **Seats:** 52 House districts
+- **Projection:** 43D-9R → 48D-4R (+5D)
+- **Effective:** 2026-01-01
+
+Proposition 50 passed November 4, 2025 with 63.9% support, suspending the Citizens Redistricting Commission and adopting a legislatively-drawn (Paul Mitchell) map through the 2030 cycle. Explicitly framed as a counter to Texas, the map shifts roughly five Republican-leaning seats to Democrats.
+
+### Florida (FL) — passed
+
+- **Status:** passed (favors Republicans)
+- **Seats:** 28 House districts
+- **Projection:** 8D-20R → 4D-24R (+4R)
+- **Effective:** 2026-05-04
+
+HB 1D, signed by Gov. DeSantis on May 4, 2026, is the first mid-decade map enacted after *Callais*. It targets Reps. Castor (Tampa), Soto (Orlando), Frankel (West Palm), and Wasserman Schultz (Fort Lauderdale) — projected 20R-8D to 24R-4D. Three lawsuits were filed under Florida's Fair Districts Amendment within 24 hours.
+
+### Tennessee (TN) — passed
+
+- **Status:** passed (favors Republicans)
+- **Seats:** 9 House districts
+- **Projection:** 1D-8R → 0D-9R (+1R)
+- **Effective:** 2026-05-07
+
+Tennessee became the second state to redraw after *Callais*. Signed May 7, 2026, the new map carves Shelby County across three GOP-leaning districts to dismantle Steve Cohen's 9th — Tennessee's only majority-Black district. The 9th moves from Harris +42 to roughly Trump +21. NAACP sued within hours.
+
+### Missouri (MO) — passed
+
+- **Status:** passed (favors Republicans)
+- **Seats:** 8 House districts
+- **Projection:** 2D-6R → 1D-7R (+1R)
+- **Effective:** 2026-01-01
+
+HB 1 of the second 2025 extraordinary session ("Missouri First Map") was signed by Gov. Mike Kehoe on September 28, 2025. It dismantles Emanuel Cleaver's Kansas City 5th — Troost Avenue, historically the racial dividing line in KC, becomes the new MO-4/MO-5 boundary. A citizen-led veto referendum qualified for the 2026 ballot; the Missouri Supreme Court is hearing two challenges.
+
+### Utah (UT) — passed
+
+- **Status:** passed (favors Democrats)
+- **Seats:** 4 House districts
+- **Projection:** 0D-4R → 1D-3R (+1D)
+- **Effective:** 2026-01-01
+
+On November 10, 2025, Third District Judge Dianna Gibson rejected the legislature's remedial Map C for violating voter-passed Proposition 4 and imposed the plaintiffs' map, which keeps Salt Lake County whole in a single Democratic-leaning district. The Utah Supreme Court ruled the legislature missed its appeal deadlines; the plaintiffs' map is in effect for 2026.
+
+### Indiana (IN) — failed
+
+- **Status:** failed (favors Republicans)
+- **Seats:** 9 House districts
+- **Projection:** 2D-7R → 2D-7R (no net partisan change)
+- **Effective:** 2025-12-11
+
+HB 1032 — which would have cracked Mrvan's 1st and Carson's 7th to push toward 9R-0D — was rejected 31-19 by the Indiana Senate on December 11, 2025. Twenty-one of the chamber's Republicans joined all ten Democrats, making Indiana the first GOP-led legislature to defeat Trump's mid-decade redistricting push.
+
+### Maryland (MD) — failed
+
+- **Status:** failed (favors Democrats)
+- **Seats:** 8 House districts
+- **Projection:** 7D-1R → 7D-1R (no net partisan change)
+- **Effective:** 2026-02-20
+
+HB 488, which would have redrawn the delegation from 7D-1R to 8D-0R, passed the House 99-37 on February 2, 2026. Senate President Bill Ferguson referred it to the Rules Committee and on February 20, 2026 declared the "window of opportunity has closed" — killing the bill despite a personal lobbying visit from Hakeem Jeffries.
+
+### Kansas (KS) — failed
+
+- **Status:** failed (favors Republicans)
+- **Seats:** 4 House districts
+- **Projection:** 1D-3R → 1D-3R (no net partisan change)
+- **Effective:** 2026-01-06
+
+Senate President Ty Masterson gathered the 27 Senate signatures for a special session targeting Sharice Davids's KS-3 by October 27, 2025; the House fell short of the 84 signatures it needed. Speaker Hawkins stripped three GOP holdouts of committee chairmanships, and in January 2026 conceded he was about twenty votes short of a veto-override majority. Effort shelved.
+
+### Virginia (VA) — failed
+
+- **Status:** failed (favors Democrats)
+- **Seats:** 11 House districts
+- **Projection:** 6D-5R → 6D-5R (no net partisan change)
+- **Effective:** 2026-05-08
+
+The legislatively-referred constitutional amendment to authorize a temporary redraw passed a special election on April 21, 2026 (51.7%-48.3%). On May 8, 2026, the Supreme Court of Virginia struck it down 4-3, holding the General Assembly violated the requirement to pass amendments "before the general election" because 2025 early voting had already begun. VA Democrats filed an emergency SCOTUS petition May 11.
+
+### New Mexico (NM) — failed
+
+- **Status:** failed (favors Republicans)
+- **Seats:** 3 House districts
+- **Projection:** 3D-0R → 3D-0R (no net partisan change)
+- **Effective:** 2023-11-27
+
+The state GOP challenged the 2021 Democratic-drawn map — which split conservative southeast NM into multiple districts and tipped NM-2 toward Gabe Vasquez — as a partisan gerrymander. On November 27, 2023 the New Mexico Supreme Court unanimously upheld the map, finding it dilutive but not 'egregious' enough to violate the state constitution.
+
+### Wisconsin (WI) — failed
+
+- **Status:** failed (favors Democrats)
+- **Seats:** 8 House districts
+- **Projection:** 2D-6R → 2D-6R (no net partisan change)
+- **Effective:** 2026-03-31
+
+Two direct-to-court challenges (Bothfeld v. WEC and a Wisconsin Business Coalition action) were re-filed in lower court after the Wisconsin Supreme Court declined original jurisdiction in June 2025. A three-judge panel dismissed Bothfeld on March 31, 2026, ending any path to a 2026 congressional redraw. The Business Coalition case continues with a tentative 2027 trial.
+
+---
+
+## News timeline
+
+25 verified events. Each entry: date · state · tag — headline. Description. Source link.
+
+### 2026-05-11 [VA] · court
+
+**Virginia Democrats file emergency SCOTUS petition over Saturday's referendum ruling**
+
+Three days after the Supreme Court of Virginia struck down the redistricting amendment 4-3, Democratic plaintiffs asked Justice Roberts to stay the decision and let the new lines stand for 2026. The current 6D-5R map is otherwise back in effect.
+
+Source: [Virginia Mercury](https://virginiamercury.com/2026/05/11/virginia-democrats-seek-emergency-injunction-from-us-supreme-court-in-redistricting-fight/)
+
+### 2026-05-11 [AL] · court
+
+**SCOTUS vacates Alabama Milligan remedial order, freeing the state to revert to its 2023 map**
+
+An unsigned per curiam order in \*Allen v. Caster\* sent the case back to the district court for reconsideration in light of \*Callais\*. With Shomari Figures's AL-2 in the balance, the projected delegation moves from 5R-2D back to 6R-1D. Sotomayor, Kagan, and Jackson dissented.
+
+Source: [SCOTUS order (PDF)](https://www.supremecourt.gov/opinions/25pdf/25-243_f20h.pdf)
+
+### 2026-05-08 [VA] · court
+
+**Virginia Supreme Court strikes down redistricting amendment 4-3**
+
+Justices held the General Assembly violated the constitutional requirement to enact amendments 'before the general election' because 2025 House of Delegates early voting had already begun by the time the amendment received its first legislative passage. Two weeks of voter approval reversed.
+
+Source: [Virginia Mercury](https://virginiamercury.com/2026/05/08/supreme-court-of-virginia-strikes-down-redistricting-amendment-keeps-current-maps-in-place/)
+
+### 2026-05-07 [TN] · legislature
+
+**Tennessee signs map dismantling Steve Cohen's Memphis district hours after passage**
+
+Governor Bill Lee signed the redrawn congressional map within two hours of legislative passage, carving Shelby County across three GOP-leaning districts and converting TN-9 — the state's only majority-Black district — from Harris +42 to Trump +21. The NAACP filed suit the same day.
+
+Source: [Roll Call](https://rollcall.com/2026/05/07/tennessee-passes-new-map-that-erases-states-lone-majority-black-district/)
+
+### 2026-05-04 [FL] · legislature
+
+**DeSantis signs Florida mid-decade map targeting four Democratic incumbents**
+
+HB 1D — the first map enacted after \*Callais\* — projects a shift from 20R-8D to 24R-4D, redrawing Tampa, Orlando, West Palm Beach, and Fort Lauderdale to unwind Castor, Soto, Frankel, and Wasserman Schultz. Three lawsuits under Florida's Fair Districts Amendment were filed within 24 hours.
+
+Source: [CNN](https://www.cnn.com/2026/05/04/politics/florida-redistricting-ron-desantis-voting-rights-act-vis)
+
+### 2026-04-29 [national] · court
+
+**In \*Louisiana v. Callais\*, SCOTUS narrows Section 2 and strikes down the 2024 LA map**
+
+A 6-3 decision by Alito invalidates Louisiana's two-Black-district SB 8 map, requiring Section 2 plaintiffs to offer alternative race-neutral maps and disentangle race from party affiliation. The ruling immediately destabilizes the post-Milligan southern maps and triggers fast-moving GOP redraws in Florida and Tennessee.
+
+Source: [SCOTUS opinion (PDF)](https://www.supremecourt.gov/opinions/25pdf/24-109_21o3.pdf)
+
+### 2026-04-21 [VA] · ballot
+
+**Virginia voters narrowly approve temporary redistricting amendment, 51.7-48.3**
+
+Held at a stand-alone special election, the amendment would have let the General Assembly draw a one-cycle counter-Texas map. Approval came on a margin of about 105,000 votes out of roughly 3.1 million cast.
+
+Source: [Virginia Mercury](https://virginiamercury.com/2026/04/21/virginia-voters-back-redistricting-amendment-after-months-of-legal-and-political-battles/)
+
+### 2026-03-31 [WI] · court
+
+**Wisconsin three-judge panel dismisses partisan-gerrymander challenge to congressional map**
+
+\*Bothfeld v. WEC\* — the Elias Law Group case re-filed in lower court after the state supreme court declined original jurisdiction — was dismissed for lack of jurisdiction over partisan-gerrymander claims. A separate Wisconsin Business Coalition case continues with a tentative 2027 trial, ending any path to a 2026 redraw.
+
+Source: [Wisconsin Examiner](https://wisconsinexaminer.com/2026/03/31/three-judge-panel-rejects-lawsuit-to-toss-wisconsins-congressional-maps/)
+
+### 2026-02-20 [MD] · legislature
+
+**Maryland Senate president declares "window of opportunity has closed" on 8D-0R map**
+
+Bill Ferguson held his caucus together against HB 488, the House-passed counter-redraw that would have eliminated Andy Harris's 1st District. The bill had passed the House 99-37 on February 2; Ferguson cited likely litigation backlash.
+
+Source: [Maryland Matters](https://marylandmatters.org/2026/02/20/ferguson-window-of-opportunity-has-closed-on-redistricting-efforts/)
+
+### 2026-02-18 [MD] · legislature
+
+**Hakeem Jeffries flies to Annapolis to lobby Ferguson directly on Maryland redraw**
+
+The House Democratic leader made a rare in-person appeal to Maryland Senate President Bill Ferguson, who controls whether HB 488 reaches the floor. Two days later Ferguson publicly closed the door.
+
+Source: [NBC News](https://www.nbcnews.com/politics/2026-election/top-maryland-senate-democrat-says-window-opportunity-closed-redistrict-rcna259935)
+
+### 2026-01-06 [KS] · legislature
+
+**Kansas Speaker concedes redistricting effort lacks votes for veto override**
+
+After the House fell short of the 84 signatures needed for a special session in November, Speaker Dan Hawkins acknowledged Republicans were roughly twenty votes short of overriding a near-certain Kelly veto. Sharice Davids's KS-3 survives the cycle.
+
+Source: [KCUR](https://www.kcur.org/politics-elections-and-government/2026-01-06/kansas-republicans-redistricting-congress-sharice-davids)
+
+### 2025-12-11 [IN] · legislature
+
+**Indiana Senate rejects 9R-0D map 31-19, breaking GOP solidarity**
+
+HB 1032 — which would have cracked Frank Mrvan's 1st and André Carson's 7th — failed when 21 of the chamber's Republicans joined all 10 Democrats in opposition. Indiana became the first Republican-led legislature to reject Trump's mid-decade redistricting push.
+
+Source: [NPR](https://www.npr.org/2025/12/11/nx-s1-5637488/midterm-elections-trump-redistricting-indiana)
+
+### 2025-12-04 [TX] · court
+
+**SCOTUS stays district-court injunction, clearing Texas map for 2026 primary**
+
+On a 6-3 emergency-docket vote, the Supreme Court let HB 4 take effect over the lower court's finding of intentional racial discrimination. Justice Kagan dissented, joined by Sotomayor and Jackson.
+
+Source: [Texas Tribune](https://www.texastribune.org/2025/12/04/texas-redistricting-map-us-supreme-court-2026-midterms/)
+
+### 2025-11-10 [UT] · court
+
+**Utah court rejects legislature's remedial map, imposes plaintiffs' map for 2026**
+
+Third District Judge Dianna Gibson held that SB 1011's 'Map C' — which split Salt Lake County across all four districts — violated voter-passed Proposition 4. The plaintiffs' alternative, which keeps Salt Lake City whole and creates one Democratic-leaning seat, takes effect for the midterms.
+
+Source: [League of Women Voters](https://www.lwv.org/newsroom/press-releases/victory-utahns-will-have-fair-map-place-2026-midterms)
+
+### 2025-11-04 [CA] · ballot
+
+**California Prop 50 passes 63.9-36.1, suspending the citizens commission through 2030**
+
+A turnout of about 36% delivered roughly 5.3M yes to 3.0M no, replacing the Citizens Redistricting Commission map with a legislatively-drawn Paul Mitchell map. The projection: 43D-9R to 48D-4R, explicitly framed as a five-seat counter to Texas.
+
+Source: [California Secretary of State (certified results)](https://electionresults.sos.ca.gov/returns/maps/ballot-measures/prop/50)
+
+### 2025-10-31 [OH] · legislature
+
+**Ohio Redistricting Commission unanimously adopts new congressional map**
+
+The seven-member commission's unanimous vote came after the legislature missed its September 30 bipartisan-map deadline. Marcy Kaptur's 9th (Toledo) shifts to roughly R+11; the delegation projects to 12R-3D.
+
+Source: [Ballotpedia News](https://news.ballotpedia.org/2025/11/03/ohio-redistricting-commission-approves-new-congressional-map-in-the-only-state-required-by-law-to-redistrict-before-2026/)
+
+### 2025-10-22 [NC] · legislature
+
+**North Carolina enacts second redraw of the cycle to take aim at Don Davis's NC-1**
+
+House final passage came on a 66-48 vote following Senate approval the day before; redistricting in NC is veto-proof. Six reliably Republican coastal counties shift into NC-1, projecting the delegation from 10R-4D to 11R-3D.
+
+Source: [NC Newsline](https://ncnewsline.com/2025/10/20/nc-republicans-move-on-new-congressional-plan-to-add-another-gop-district/)
+
+### 2025-09-28 [MO] · legislature
+
+**Kehoe signs the "Missouri First Map," redrawing KC to oust Emanuel Cleaver**
+
+HB 1 of the second 2025 extraordinary session splits Jackson County among three districts and uses Troost Avenue — historically the racial dividing line in Kansas City — as the new MO-4/MO-5 boundary. A citizen-led veto referendum is in motion.
+
+Source: [](https://governor.mo.gov/press-releases/archive/governor-kehoe-signs-missouri-first-map-law)
+
+### 2025-08-29 [TX] · legislature
+
+**Abbott signs HB 4, opening the mid-decade redistricting cycle**
+
+After House Democrats broke quorum for two weeks in August, the second special session passed HB 4 88-52 in the House and 18-8 in the Senate. The map targets five Democratic-held seats across Houston, Dallas, and the Rio Grande Valley.
+
+Source: [Texas Tribune](https://www.texastribune.org/2025/08/29/greg-abbott-signs-texas-congressional-map-redistricting/)
+
+### 2024-05-23 [SC] · court
+
+**SCOTUS upholds South Carolina congressional map in \*Alexander v. NAACP\***
+
+A 6-3 decision by Alito reversed the lower court's finding that SC-1 was an unconstitutional racial gerrymander, holding plaintiffs must 'disentangle race from politics' and presume good-faith partisan motivation. Foreshadows the \*Callais\* reasoning.
+
+Source: [SCOTUS opinion (PDF)](https://www.supremecourt.gov/opinions/23pdf/22-807_3e04.pdf)
+
+### 2024-02-28 [NY] · legislature
+
+**Hochul signs legislature's map after IRC submission rejected**
+
+After the NY Court of Appeals ordered a new map in December 2023, the IRC's near-status-quo submission was rejected and replaced with a legislative draft. Targeted changes in Long Island, the Hudson Valley and Syracuse produced an estimated 2-4 seat Democratic shift.
+
+Source: [Roll Call](https://rollcall.com/2024/02/28/new-york-adopts-congressional-map-that-benefits-democrats/)
+
+### 2023-12-28 [GA] · court
+
+**Federal judge approves Georgia remedial map that preserves 9R-5D split**
+
+Judge Steve C. Jones overruled plaintiffs' objections and approved the legislature's remedial map, which added a new majority-Black 6th in western metro Atlanta but dismantled Lucy McBath's coalition 7th in the same redraw — preserving the partisan balance.
+
+Source: [PBS NewsHour](https://www.pbs.org/newshour/politics/federal-judge-accepts-redrawn-georgia-congressional-districts-that-will-favor-republicans)
+
+### 2023-11-27 [NM] · court
+
+**New Mexico Supreme Court unanimously upholds Democratic-drawn congressional map**
+
+The GOP had challenged the 2021 map that split conservative southeast NM into multiple districts and turned NM-2 competitive (won by Gabe Vasquez). Justices found the map 'substantially' diluted Republican votes but did not reach the 'egregious' threshold required to strike it down.
+
+Source: [Democracy Docket](https://www.democracydocket.com/news-alerts/new-mexico-supreme-court-upholds-congressional-map-for-2024-and-beyond/)
+
+### 2023-10-25 [NC] · legislature
+
+**North Carolina enacts first 2024-cycle redraw, projected to flip three seats**
+
+SB 757 (SL 2023-145) became law without the governor's signature — redistricting is veto-proof in NC. It replaced the 2022 court-imposed 7-7 lines with a map projected at roughly 10R-3D plus one competitive seat (NC-1).
+
+Source: [Roll Call](https://rollcall.com/2023/10/25/north-carolina-legislature-passes-new-congressional-map-that-favors-republicans/)
+
+### 2023-06-08 [national] · court
+
+**Allen v. Milligan: SCOTUS upholds Section 2 of the Voting Rights Act, 5-4**
+
+Chief Justice Roberts's majority opinion preserved the Thornburg v. Gingles framework and rejected Alabama's race-blind benchmark theory — ultimately forcing both Alabama and Louisiana to draw new majority-Black districts for 2024. The framework Roberts protected here is the one \*Callais\* narrowed three years later.
+
+Source: [SCOTUS opinion (PDF)](https://www.supremecourt.gov/opinions/22pdf/21-1086_1co6.pdf)
