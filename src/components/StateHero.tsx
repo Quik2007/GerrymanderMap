@@ -6,6 +6,12 @@ interface Props {
   info: StateInfo;
 }
 
+/**
+ * Three stacked sections at different widths:
+ *   - title + status badge  → text-width (1200)
+ *   - before/after maps     → wider (1600) so each map stands out
+ *   - net shift + summary   → text-width (1200, prose capped)
+ */
 export function StateHero({ info }: Props) {
   const delta = seatDelta(info);
   const netShift =
@@ -17,33 +23,36 @@ export function StateHero({ info }: Props) {
 
   return (
     <>
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div className="min-w-0">
-          <h1 className="font-serif text-3xl font-semibold leading-tight tracking-tighter text-ink-50 md:text-[44px]">
-            {info.name}
-          </h1>
-          <div className="mt-1 text-sm text-ink-400">
-            {info.totalSeats} House seats
-            {info.effective ? ` · map effective ${info.effective}` : ''}
+      <div className="mx-auto w-full max-w-[1200px] px-5 md:px-10">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="font-serif text-3xl font-semibold leading-tight tracking-tighter text-ink-50 md:text-[44px]">
+              {info.name}
+            </h1>
+            <div className="mt-1 text-sm text-ink-400">
+              {info.totalSeats} House seats
+              {info.effective ? ` · map effective ${info.effective}` : ''}
+            </div>
           </div>
+          <StatusBadge info={info} />
         </div>
-        <StatusBadge info={info} />
       </div>
 
-      <div className="mt-8 md:mt-10">
+      <div className="mx-auto mt-8 w-full max-w-[1600px] px-5 md:mt-10 md:px-10">
         <BeforeAfterMaps info={info} />
       </div>
 
-      <div className="mt-8 flex flex-wrap items-baseline gap-x-4 gap-y-1 md:mt-10">
-        <span className="font-serif text-2xl font-semibold text-ink-50">{netShift}</span>
-        <span className="text-base text-ink-400 tabular-nums">
-          {info.before.seats.D}D – {info.before.seats.R}R
-          <span className="mx-2 text-ink-600">→</span>
-          {info.after.seats.D}D – {info.after.seats.R}R
-        </span>
+      <div className="mx-auto mt-8 w-full max-w-[1200px] px-5 md:mt-10 md:px-10">
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+          <span className="font-serif text-2xl font-semibold text-ink-50">{netShift}</span>
+          <span className="text-base text-ink-400 tabular-nums">
+            {info.before.seats.D}D – {info.before.seats.R}R
+            <span className="mx-2 text-ink-600">→</span>
+            {info.after.seats.D}D – {info.after.seats.R}R
+          </span>
+        </div>
+        <p className="mt-4 max-w-prose text-base leading-relaxed text-ink-200">{info.summary}</p>
       </div>
-
-      <p className="mt-4 max-w-prose text-base leading-relaxed text-ink-200">{info.summary}</p>
     </>
   );
 }
@@ -68,13 +77,11 @@ function StatusBadge({ info }: { info: StateInfo }) {
 
   let magnitudeLabel: string | null = null;
   if (magnitude > 0 && direction) {
-    const noun =
-      isFailed ? 'blocked' : isPlanned ? 'target' : 'shift';
+    const noun = isFailed ? 'blocked' : isPlanned ? 'target' : 'shift';
     magnitudeLabel = `+${magnitude} ${partyLabel(direction)} seat${
       magnitude === 1 ? '' : 's'
     } ${noun}`;
   } else if (info.favors && !direction) {
-    // Unusual: passed map but no seat change, just orientation noted
     magnitudeLabel = `favors ${partyLabel(info.favors)} · no net shift`;
   }
 

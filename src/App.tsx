@@ -15,9 +15,7 @@ export function App() {
   const [selected, setSelected] = useState<string | null>(() => readHash());
   const selectedInfo = useMemo(() => (selected ? STATES[selected] : null), [selected]);
 
-  /** Tracks whether the user has navigated within the app since loading.
-   *  We use this so the in-app Back button can safely call history.back()
-   *  without dropping the user off the site on a deep-link initial load. */
+  /** Tracks whether the user has navigated within the app since loading. */
   const navDepth = useRef(0);
 
   const handleSelect = useCallback((code: string | null) => {
@@ -25,7 +23,6 @@ export function App() {
     const nextHash = code ?? '';
     if (currentHash === nextHash) return;
     const url = window.location.pathname + window.location.search + (code ? `#${code}` : '');
-    // pushState so browser back navigates between selections / to the US map
     window.history.pushState(null, '', url);
     navDepth.current += 1;
     setSelected(code);
@@ -34,10 +31,8 @@ export function App() {
 
   const handleBack = useCallback(() => {
     if (navDepth.current > 0) {
-      // Use the browser history so back/forward stay consistent
       window.history.back();
     } else {
-      // Deep-link initial load — there's no in-app history yet, so push a no-hash entry
       const url = window.location.pathname + window.location.search;
       window.history.pushState(null, '', url);
       navDepth.current += 1;
@@ -46,7 +41,6 @@ export function App() {
     }
   }, []);
 
-  // popstate fires on browser back/forward AND on history.back() calls
   useEffect(() => {
     const onPop = () => {
       setSelected(readHash());
@@ -68,41 +62,51 @@ export function App() {
     <div className="min-h-screen bg-page">
       <Masthead selected={selected} onBack={handleBack} />
 
-      <main className="mx-auto w-full max-w-[1700px] px-5 md:px-10">
-        <section key={selected ?? 'us'} className="fade-in pt-4 pb-10 md:pt-6 md:pb-14">
-          {selectedInfo ? (
-            <StateHero info={selectedInfo} />
-          ) : (
-            <div className="mx-auto max-w-[1200px]">
-              <div className="max-w-prose">
-                <h1 className="font-serif text-3xl font-semibold leading-tight tracking-tighter text-ink-50 md:text-[44px]">
-                  Where America&rsquo;s lines are being redrawn
-                </h1>
-                <p className="mt-2 text-base text-ink-300">
-                  A map of the 2024–2026 redistricting cycle. Coloured states have changed,
-                  are changing, or tried and failed to change their congressional districts.
-                  Tap one to see its before and after.
-                </p>
-              </div>
-              <div className="mt-6 md:mt-8">
-                <USMap selected={selected} onSelect={handleSelect} />
-              </div>
-              <div className="mt-5">
-                <Legend />
-              </div>
-            </div>
-          )}
-        </section>
+      <main key={selected ?? 'us'} className="fade-in pt-4 pb-10 md:pt-6 md:pb-14">
+        {selectedInfo ? (
+          <StateHero info={selectedInfo} />
+        ) : (
+          <DefaultHero selected={selected} onSelect={handleSelect} />
+        )}
 
-        <hr className="hairline" aria-hidden />
+        <hr className="hairline mx-auto max-w-[1200px] mt-10" aria-hidden />
 
-        <section className="mx-auto max-w-[1000px] py-10 md:py-14">
+        <section className="mx-auto mt-10 w-full max-w-[1000px] px-5 md:mt-14 md:px-10">
           <NewsFeed filterState={selected} />
         </section>
       </main>
 
       <Footer />
     </div>
+  );
+}
+
+function DefaultHero({
+  selected,
+  onSelect,
+}: {
+  selected: string | null;
+  onSelect: (code: string | null) => void;
+}) {
+  return (
+    <section className="mx-auto w-full max-w-[1200px] px-5 md:px-10">
+      <div className="max-w-prose">
+        <h1 className="font-serif text-3xl font-semibold leading-tight tracking-tighter text-ink-50 md:text-[44px]">
+          Where America&rsquo;s lines are being redrawn
+        </h1>
+        <p className="mt-2 text-base text-ink-300">
+          A map of the 2024–2026 redistricting cycle. Coloured states have changed,
+          are changing, or tried and failed to change their congressional districts.
+          Tap one to see its before and after.
+        </p>
+      </div>
+      <div className="mt-6 md:mt-8">
+        <USMap selected={selected} onSelect={onSelect} />
+      </div>
+      <div className="mt-5">
+        <Legend />
+      </div>
+    </section>
   );
 }
 
@@ -114,7 +118,7 @@ function Masthead({
   onBack: () => void;
 }) {
   return (
-    <header className="mx-auto flex w-full max-w-[1700px] items-center justify-between px-5 pt-5 md:px-10 md:pt-7">
+    <header className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-5 pt-5 md:px-10 md:pt-7">
       {selected ? (
         <button type="button" onClick={onBack} className="btn-back" aria-label="Back to US map">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -143,8 +147,8 @@ function Masthead({
 function Footer() {
   return (
     <footer className="mt-auto">
-      <hr className="hairline" aria-hidden />
-      <div className="mx-auto max-w-[1700px] px-5 py-6 text-xs text-ink-500 md:px-10">
+      <hr className="hairline mx-auto max-w-[1200px]" aria-hidden />
+      <div className="mx-auto max-w-[1200px] px-5 py-6 text-xs text-ink-500 md:px-10">
         <p className="max-w-prose">
           District boundaries via Jeffrey B. Lewis&rsquo; GIS collection. Seat counts and per-district
           party expectations are stylized; news descriptions are editorial. Click any item&rsquo;s source

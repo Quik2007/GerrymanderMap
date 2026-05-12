@@ -9,7 +9,7 @@ import { geoCentroid } from 'd3-geo';
 import { STATES } from '../data/states';
 import type { StateInfo } from '../data/types';
 import { NAME_TO_CODE } from '../lib/stateNames';
-import { stateFill, NEUTRAL_HOVER, seatDelta, PARTY_COLOR } from '../lib/visuals';
+import { stateFill, NEUTRAL_HOVER, seatDelta } from '../lib/visuals';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
 
@@ -166,12 +166,7 @@ export function USMap({ selected, onSelect }: Props) {
                 const shiftParty: 'D' | 'R' | null =
                   delta.D > 0 ? 'D' : delta.R > 0 ? 'R' : null;
                 const shiftMag = shiftParty ? Math.abs(shiftParty === 'D' ? delta.D : delta.R) : 0;
-                const shiftLabel = shiftParty
-                  ? `+${shiftMag} ${shiftParty}`
-                  : info.status === 'failed' || info.status === 'planned'
-                    ? null
-                    : null;
-                const shiftColor = shiftParty ? PARTY_COLOR[shiftParty] : '#9a9285';
+                const shiftLabel = shiftParty ? `+${shiftMag} ${shiftParty}` : null;
 
                 const codeSize = isSelected ? 14 : 12;
                 const shiftSize = isSelected ? 11 : 10;
@@ -222,11 +217,11 @@ export function USMap({ selected, onSelect }: Props) {
                         alignmentBaseline="middle"
                         style={{
                           fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
-                          fontWeight: 700,
+                          fontWeight: 600,
                           fontSize: shiftSize,
                           letterSpacing: '0.04em',
-                          fill: shiftColor,
-                          opacity: dimmed ? 0.55 : 1,
+                          fill: '#f6f1e8',
+                          opacity: dimmed ? 0.55 : 0.9,
                           paintOrder: 'stroke',
                           stroke: 'rgba(28, 26, 24, 0.95)',
                           strokeWidth: 3,
