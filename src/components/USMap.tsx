@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from 'react-simple-maps';
-import { geoCentroid } from 'd3-geo';
+import { geoAlbersUsa, geoCentroid, geoPath } from 'd3-geo';
+import { feature } from 'topojson-client';
+import type { Topology } from 'topojson-specification';
+import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import { STATES } from '../data/states';
 import type { StateInfo } from '../data/types';
 import { NAME_TO_CODE } from '../lib/stateNames';
 import { stateFill, NEUTRAL_HOVER, seatDelta } from '../lib/visuals';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
+
+const VB_W = 1100;
+const VB_H = 680;
 
 const LABEL_OFFSETS: Record<string, [number, number]> = {
   FL: [3, 1],
@@ -29,16 +29,55 @@ const LABEL_OFFSETS: Record<string, [number, number]> = {
 
 const LEADER_LABELS = new Set(['RI', 'CT', 'NJ', 'DE', 'MD', 'MA', 'NH', 'VT']);
 
+interface StateFeatureProps {
+  name: string;
+  [key: string]: unknown;
+}
+
 interface Props {
   selected: string | null;
   onSelect: (code: string | null) => void;
 }
 
 export function USMap({ selected, onSelect }: Props) {
+  const [features, setFeatures] = useState<Feature<Geometry, StateFeatureProps>[] | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
-  const [size, setSize] = useState<{ w: number; h: number }>({ w: 1200, h: 720 });
+  const [size, setSize] = useState<{ w: number; h: number }>({ w: VB_W, h: VB_H });
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Project once the topology is loaded, fitting to the viewBox.
+  const projection = useMemo(() => {
+    const proj = geoAlbersUsa();
+    if (features && features.length) {
+      proj.fitSize([VB_W, VB_H], {
+        type: 'FeatureCollection',
+        features,
+      } as FeatureCollection);
+    }
+    return proj;
+  }, [features]);
+
+  const pathGen = useMemo(() => geoPath(projection), [projection]);
+
+  // One fetch per page load (us-atlas hash-busts at the version URL anyway).
+  useEffect(() => {
+    let cancelled = false;
+    fetch(GEO_URL)
+      .then((r) => r.json() as Promise<Topology>)
+      .then((topo) => {
+        if (cancelled) return;
+        const layer = topo.objects.states;
+        const fc = feature(topo, layer) as unknown as FeatureCollection<Geometry, StateFeatureProps>;
+        setFeatures(fc.features);
+      })
+      .catch(() => {
+        if (!cancelled) setFeatures([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const tooltipInfo: StateInfo | null = useMemo(() => {
     const code = hover ?? selected;
@@ -71,12 +110,12 @@ export function USMap({ selected, onSelect }: Props) {
         setCursor(null);
       }}
     >
-      <ComposableMap
-        projection="geoAlbersUsa"
-        projectionConfig={{ scale: 1300 }}
-        width={1100}
-        height={680}
-        style={{ width: '100%', height: 'auto', touchAction: 'manipulation' }}
+      <svg
+        viewBox={`0 0 ${VB_W} ${VB_H}`}
+        className="block h-auto w-full"
+        style={{ touchAction: 'manipulation' }}
+        role="img"
+        aria-label="Interactive map of US states with 2024-2026 redistricting status"
       >
         <defs>
           {(['D', 'R'] as const).map((p) => (
@@ -106,138 +145,129 @@ export function USMap({ selected, onSelect }: Props) {
           </filter>
         </defs>
 
-        <Geographies geography={GEO_URL}>
-          {({ geographies }) => (
-            <>
-              {geographies.map((geo) => {
-                const name: string = geo.properties.name;
-                const code = NAME_TO_CODE[name];
-                const info = code ? STATES[code] : undefined;
-                const fill = stateFill(info);
-                const isSelected = code === selected;
-                const isInteractive = Boolean(info && info.status !== 'none');
+        {features &&
+          features.map((geo) => {
+            const name = geo.properties.name;
+            const code = NAME_TO_CODE[name];
+            const info = code ? STATES[code] : undefined;
+            const fill = stateFill(info);
+            const isSelected = !!(code && code === selected);
+            const isHover = !!(code && code === hover);
+            const isInteractive = Boolean(info && info.status !== 'none');
+            const d = pathGen(geo) ?? '';
+            const dimmed = selected && !isSelected && isInteractive;
 
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill={fill}
-                    stroke={isSelected ? '#f6f1e8' : '#262422'}
-                    strokeWidth={isSelected ? 1.4 : 0.5}
-                    filter={isSelected ? 'url(#state-glow)' : undefined}
-                    style={{
-                      default: {
-                        outline: 'none',
-                        transition: 'fill 200ms ease, stroke 200ms ease, opacity 200ms ease',
-                        opacity: selected && !isSelected && isInteractive ? 0.7 : 1,
-                      },
-                      hover: {
-                        outline: 'none',
-                        fill: isInteractive ? fill : NEUTRAL_HOVER,
-                        cursor: isInteractive ? 'pointer' : 'default',
-                        opacity: 1,
-                      },
-                      pressed: { outline: 'none' },
-                    }}
-                    onMouseEnter={() => code && setHover(code)}
-                    onMouseLeave={() => setHover(null)}
-                    onClick={() => {
-                      if (!code || !info || info.status === 'none') return;
-                      onSelect(code);
-                    }}
-                    aria-label={info ? `${info.name}, status ${info.status}` : name}
+            return (
+              <path
+                key={name}
+                d={d}
+                fill={isHover && !isInteractive ? NEUTRAL_HOVER : fill}
+                stroke={isSelected ? '#f6f1e8' : '#262422'}
+                strokeWidth={isSelected ? 1.4 : 0.5}
+                fillOpacity={dimmed ? 0.7 : 1}
+                filter={isSelected ? 'url(#state-glow)' : undefined}
+                style={{
+                  outline: 'none',
+                  cursor: isInteractive ? 'pointer' : 'default',
+                  transition: 'fill 200ms ease, stroke 200ms ease, fill-opacity 200ms ease',
+                }}
+                onMouseEnter={() => code && setHover(code)}
+                onMouseLeave={() => setHover(null)}
+                onClick={() => {
+                  if (!code || !info || info.status === 'none') return;
+                  onSelect(code);
+                }}
+                aria-label={info ? `${info.name}, status ${info.status}` : name}
+              />
+            );
+          })}
+
+        {features &&
+          features.map((geo) => {
+            const name = geo.properties.name;
+            const code = NAME_TO_CODE[name];
+            const info = code ? STATES[code] : undefined;
+            if (!code || !info || info.status === 'none') return null;
+            const isSelected = code === selected;
+            const dimmed = Boolean(selected && !isSelected);
+            const centroidLngLat = geoCentroid(geo) as [number, number];
+            const projected = projection(centroidLngLat);
+            if (!projected) return null;
+            const [cx, cy] = projected;
+            const offset = LABEL_OFFSETS[code] ?? [0, 0];
+            const hasLeader = LEADER_LABELS.has(code);
+
+            const delta = seatDelta(info);
+            const shiftParty: 'D' | 'R' | null =
+              delta.D > 0 ? 'D' : delta.R > 0 ? 'R' : null;
+            const shiftMag = shiftParty
+              ? Math.abs(shiftParty === 'D' ? delta.D : delta.R)
+              : 0;
+            const shiftLabel = shiftParty ? `+${shiftMag} ${shiftParty}` : null;
+
+            const codeSize = isSelected ? 14 : 12;
+            const shiftSize = isSelected ? 11 : 10;
+            const lineGap = codeSize * 0.85;
+
+            return (
+              <g key={`label-${code}`} transform={`translate(${cx}, ${cy})`}>
+                {hasLeader && (
+                  <line
+                    x1={0}
+                    y1={0}
+                    x2={offset[0]}
+                    y2={offset[1]}
+                    stroke="#f6f1e8"
+                    strokeOpacity={dimmed ? 0.3 : 0.55}
+                    strokeWidth={0.7}
                   />
-                );
-              })}
-
-              {geographies.map((geo) => {
-                const name: string = geo.properties.name;
-                const code = NAME_TO_CODE[name];
-                const info = code ? STATES[code] : undefined;
-                if (!code || !info || info.status === 'none') return null;
-                const isSelected = code === selected;
-                const dimmed = Boolean(selected && !isSelected);
-                const centroid = geoCentroid(geo) as [number, number];
-                const offset = LABEL_OFFSETS[code] ?? [0, 0];
-                const hasLeader = LEADER_LABELS.has(code);
-
-                // Seat-shift label (e.g. "+4 R", "+2 D")
-                const delta = seatDelta(info);
-                const shiftParty: 'D' | 'R' | null =
-                  delta.D > 0 ? 'D' : delta.R > 0 ? 'R' : null;
-                const shiftMag = shiftParty ? Math.abs(shiftParty === 'D' ? delta.D : delta.R) : 0;
-                const shiftLabel = shiftParty ? `+${shiftMag} ${shiftParty}` : null;
-
-                const codeSize = isSelected ? 14 : 12;
-                const shiftSize = isSelected ? 11 : 10;
-                const lineGap = codeSize * 0.85;
-
-                return (
-                  <Marker
-                    key={`label-${code}`}
-                    coordinates={centroid}
-                    style={{ default: { pointerEvents: 'none' } }}
+                )}
+                <text
+                  x={offset[0]}
+                  y={offset[1] - (shiftLabel ? lineGap / 2 : 0)}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  style={{
+                    fontFamily: '"Source Serif 4", Georgia, serif',
+                    fontWeight: 600,
+                    fontSize: codeSize,
+                    letterSpacing: '0.02em',
+                    fill: '#f6f1e8',
+                    opacity: dimmed ? 0.55 : 1,
+                    paintOrder: 'stroke',
+                    stroke: 'rgba(28, 26, 24, 0.9)',
+                    strokeWidth: 3,
+                    pointerEvents: 'none',
+                  }}
+                >
+                  {code}
+                </text>
+                {shiftLabel && (
+                  <text
+                    x={offset[0]}
+                    y={offset[1] + lineGap / 2 + 1}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    style={{
+                      fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
+                      fontWeight: 600,
+                      fontSize: shiftSize,
+                      letterSpacing: '0.04em',
+                      fill: '#f6f1e8',
+                      opacity: dimmed ? 0.55 : 0.9,
+                      paintOrder: 'stroke',
+                      stroke: 'rgba(28, 26, 24, 0.95)',
+                      strokeWidth: 3,
+                      pointerEvents: 'none',
+                    }}
                   >
-                    {hasLeader && (
-                      <line
-                        x1={0}
-                        y1={0}
-                        x2={offset[0]}
-                        y2={offset[1]}
-                        stroke="#f6f1e8"
-                        strokeOpacity={dimmed ? 0.3 : 0.55}
-                        strokeWidth={0.7}
-                      />
-                    )}
-                    <text
-                      x={offset[0]}
-                      y={offset[1] - (shiftLabel ? lineGap / 2 : 0)}
-                      textAnchor="middle"
-                      alignmentBaseline="middle"
-                      style={{
-                        fontFamily: '"Source Serif 4", Georgia, serif',
-                        fontWeight: 600,
-                        fontSize: codeSize,
-                        letterSpacing: '0.02em',
-                        fill: '#f6f1e8',
-                        opacity: dimmed ? 0.55 : 1,
-                        paintOrder: 'stroke',
-                        stroke: 'rgba(28, 26, 24, 0.9)',
-                        strokeWidth: 3,
-                        transition: 'font-size 180ms ease, opacity 180ms ease',
-                      }}
-                    >
-                      {code}
-                    </text>
-                    {shiftLabel && (
-                      <text
-                        x={offset[0]}
-                        y={offset[1] + lineGap / 2 + 1}
-                        textAnchor="middle"
-                        alignmentBaseline="middle"
-                        style={{
-                          fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
-                          fontWeight: 600,
-                          fontSize: shiftSize,
-                          letterSpacing: '0.04em',
-                          fill: '#f6f1e8',
-                          opacity: dimmed ? 0.55 : 0.9,
-                          paintOrder: 'stroke',
-                          stroke: 'rgba(28, 26, 24, 0.95)',
-                          strokeWidth: 3,
-                          transition: 'font-size 180ms ease, opacity 180ms ease',
-                        }}
-                      >
-                        {shiftLabel}
-                      </text>
-                    )}
-                  </Marker>
-                );
-              })}
-            </>
-          )}
-        </Geographies>
-      </ComposableMap>
+                    {shiftLabel}
+                  </text>
+                )}
+              </g>
+            );
+          })}
+      </svg>
 
       <Tooltip info={tooltipInfo} cursor={cursor} bounds={size} />
     </div>
