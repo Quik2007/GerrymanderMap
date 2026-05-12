@@ -58,7 +58,7 @@ export function NewsFeed({ filterState }: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search headlines, sources…"
-          className="min-w-0 flex-1 rounded-md border border-hairline bg-page-2/60 px-3 py-1.5 text-sm text-ink-100 placeholder:text-ink-500 outline-none transition focus:border-hairline-strong focus:ring-1 focus:ring-dem-500/40"
+          className="min-w-0 max-w-[420px] flex-1 rounded-md border border-hairline bg-page-2/60 px-3 py-1.5 text-sm text-ink-100 placeholder:text-ink-500 outline-none transition focus:border-hairline-strong focus:ring-1 focus:ring-dem-500/40"
         />
         <div className="flex flex-wrap items-center gap-1.5">
           {TAGS.map((tag) => (
@@ -156,7 +156,7 @@ function NewsRow({ item, showStateBadge }: { item: NewsItem; showStateBadge: boo
         )}
         {item.tag && <TagPill tag={item.tag} />}
       </div>
-      <h3 className="font-serif text-xl font-semibold leading-snug text-ink-50">
+      <h3 className="max-w-prose font-serif text-xl font-semibold leading-snug text-ink-50">
         {item.headline}
       </h3>
       <p className="mt-1.5 max-w-prose text-base leading-relaxed text-ink-200">

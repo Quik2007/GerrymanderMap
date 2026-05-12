@@ -71,7 +71,7 @@ export function App() {
 
         <hr className="hairline mx-auto max-w-[1200px] mt-10" aria-hidden />
 
-        <section className="mx-auto mt-10 w-full max-w-[1000px] px-5 md:mt-14 md:px-10">
+        <section className="mx-auto mt-10 w-full max-w-[1200px] px-5 md:mt-14 md:px-10">
           <NewsFeed filterState={selected} />
         </section>
       </main>
