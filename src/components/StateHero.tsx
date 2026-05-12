@@ -38,7 +38,7 @@ export function StateHero({ info }: Props) {
         </div>
       </div>
 
-      <div className="mx-auto mt-8 w-full max-w-[1600px] px-5 md:mt-10 md:px-10">
+      <div className="mx-auto mt-8 w-full max-w-[1600px] px-0 sm:px-3 md:mt-10 md:px-10">
         <BeforeAfterMaps info={info} />
       </div>
 

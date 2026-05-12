@@ -3,6 +3,7 @@ import { USMap } from './components/USMap';
 import { StateHero } from './components/StateHero';
 import { NewsFeed } from './components/NewsFeed';
 import { Legend } from './components/Legend';
+import { AboutSections } from './components/AboutSections';
 import { STATES } from './data/states';
 
 function readHash(): string | null {
@@ -74,6 +75,10 @@ export function App() {
         <section className="mx-auto mt-10 w-full max-w-[1200px] px-5 md:mt-14 md:px-10">
           <NewsFeed filterState={selected} />
         </section>
+
+        <hr className="hairline mx-auto mt-12 max-w-[1200px] md:mt-16" aria-hidden />
+
+        <AboutSections />
       </main>
 
       <Footer />
@@ -100,7 +105,9 @@ function DefaultHero({
           Tap one to see its before and after.
         </p>
       </div>
-      <div className="mt-6 md:mt-8">
+      {/* Negative margin lets the US map break out of the section's px-5 on
+          mobile so it gets every available pixel of width. */}
+      <div className="mt-6 md:mt-8 -mx-5 md:mx-0">
         <USMap selected={selected} onSelect={onSelect} />
       </div>
       <div className="mt-5">

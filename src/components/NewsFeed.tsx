@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { NEWS } from '../data/news';
 import type { NewsItem } from '../data/types';
 import { CODE_TO_NAME } from '../lib/stateNames';
@@ -11,9 +11,12 @@ interface Props {
 type Tag = NonNullable<NewsItem['tag']>;
 const TAGS: Tag[] = ['court', 'legislature', 'ballot', 'analysis', 'executive'];
 
+const PAGE_SIZE = 8;
+
 export function NewsFeed({ filterState }: Props) {
   const [activeTags, setActiveTags] = useState<Set<Tag>>(new Set());
   const [query, setQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const toggleTag = (tag: Tag) => {
     setActiveTags((prev) => {
@@ -36,6 +39,15 @@ export function NewsFeed({ filterState }: Props) {
       return true;
     }).sort((a, b) => (a.date < b.date ? 1 : -1));
   }, [filterState, activeTags, query]);
+
+  // Reset pagination whenever the filter set changes so newly visible
+  // items aren't hidden behind a stale "load more" cursor.
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [filterState, activeTags, query]);
+
+  const visible = items.slice(0, visibleCount);
+  const hasMore = items.length > visibleCount;
 
   const heading = filterState
     ? `${CODE_TO_NAME[filterState] ?? filterState} · updates`
@@ -86,11 +98,27 @@ export function NewsFeed({ filterState }: Props) {
           No items match the current filters.
         </div>
       ) : (
-        <ol className="divide-y divide-hairline">
-          {items.map((n) => (
-            <NewsRow key={n.id} item={n} showStateBadge={!filterState} />
-          ))}
-        </ol>
+        <>
+          <ol className="divide-y divide-hairline">
+            {visible.map((n) => (
+              <NewsRow key={n.id} item={n} showStateBadge={!filterState} />
+            ))}
+          </ol>
+          {hasMore && (
+            <div className="mt-6 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
+                className="rounded-md border border-hairline bg-page-2/60 px-4 py-2 text-sm font-medium text-ink-200 transition hover:border-hairline-strong hover:text-ink-50"
+              >
+                Load {Math.min(PAGE_SIZE, items.length - visibleCount)} more
+                <span className="ml-1.5 text-ink-500 tabular-nums">
+                  · {items.length - visibleCount} remaining
+                </span>
+              </button>
+            </div>
+          )}
+        </>
       )}
     </section>
   );
