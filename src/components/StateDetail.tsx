@@ -1,5 +1,6 @@
-import type { DistrictBreakdown, Party, StateInfo } from '../data/types';
-import { PARTY_COLOR, PARTY_COLOR_DEEP, partyLabel, seatDelta, statusLabel } from '../lib/visuals';
+import type { StateInfo } from '../data/types';
+import { PARTY_COLOR, partyLabel, seatDelta, statusLabel } from '../lib/visuals';
+import { BeforeAfterMaps } from './BeforeAfterMaps';
 
 interface Props {
   info: StateInfo;
@@ -39,8 +40,7 @@ export function StateDetail({ info, onClear }: Props) {
       </header>
 
       <div className="grid gap-5 px-5 py-5 md:grid-cols-2">
-        <DistrictPanel title="Before" subtitle="Previous map" breakdown={info.before} />
-        <DistrictPanel title="After" subtitle="New / proposed map" breakdown={info.after} deep />
+        <BeforeAfterMaps info={info} />
       </div>
 
       <div className="border-t border-ink-800/80 px-5 py-4">
@@ -92,73 +92,3 @@ function StatusBadge({ info }: { info: StateInfo }) {
   );
 }
 
-function DistrictPanel({
-  title,
-  subtitle,
-  breakdown,
-  deep,
-}: {
-  title: string;
-  subtitle: string;
-  breakdown: DistrictBreakdown;
-  deep?: boolean;
-}) {
-  return (
-    <div className="rounded-xl border border-ink-800 bg-ink-950/60 p-4">
-      <div className="mb-2 flex items-baseline justify-between">
-        <div>
-          <div className="font-display text-lg font-semibold text-ink-50">{title}</div>
-          <div className="text-xs text-ink-400">{subtitle}</div>
-        </div>
-        <div className="text-right text-sm tabular-nums">
-          <span className="text-dem-400 font-semibold">{breakdown.seats.D}D</span>
-          <span className="mx-1.5 text-ink-500">·</span>
-          <span className="text-rep-400 font-semibold">{breakdown.seats.R}R</span>
-        </div>
-      </div>
-      <DistrictGrid districts={breakdown.districts} deep={deep} />
-      <SeatBar seats={breakdown.seats} />
-    </div>
-  );
-}
-
-function DistrictGrid({ districts, deep }: { districts: Party[]; deep?: boolean }) {
-  const palette = deep ? PARTY_COLOR_DEEP : PARTY_COLOR;
-  const cols = districts.length <= 8 ? 4 : districts.length <= 17 ? 6 : 8;
-  return (
-    <div
-      className="my-3 grid gap-1.5"
-      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
-      aria-label="Per-district party expectation"
-    >
-      {districts.map((p, i) => (
-        <div
-          key={i}
-          className="relative aspect-square overflow-hidden rounded-md text-[10px] font-semibold text-white/90"
-          style={{ background: palette[p] }}
-          title={`District ${i + 1} · ${p === 'D' ? 'Democratic' : 'Republican'}`}
-        >
-          <span className="absolute left-1 top-1 leading-none">{i + 1}</span>
-          <span className="absolute right-1 bottom-1 leading-none opacity-80">{p}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function SeatBar({ seats }: { seats: { D: number; R: number } }) {
-  const total = seats.D + seats.R || 1;
-  const dPct = (seats.D / total) * 100;
-  return (
-    <div
-      className="mt-1 h-2 w-full overflow-hidden rounded-full bg-ink-800"
-      role="img"
-      aria-label={`${seats.D} Democratic seats, ${seats.R} Republican seats`}
-    >
-      <div className="flex h-full">
-        <div style={{ width: `${dPct}%`, background: PARTY_COLOR.D }} />
-        <div style={{ width: `${100 - dPct}%`, background: PARTY_COLOR.R }} />
-      </div>
-    </div>
-  );
-}
