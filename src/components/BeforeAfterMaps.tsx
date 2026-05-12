@@ -64,7 +64,7 @@ export function BeforeAfterMaps({ info }: Props) {
   }, [info.code, hasReal]);
 
   return (
-    <div className="grid gap-10 md:grid-cols-2 md:gap-12">
+    <div className="grid gap-10 md:grid-cols-2 md:gap-8">
       {!hasReal ? (
         <>
           <Fallback title="Before" subtitle="Previous map · schematic" breakdown={info.before} />

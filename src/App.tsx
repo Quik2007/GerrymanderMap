@@ -68,13 +68,13 @@ export function App() {
     <div className="min-h-screen bg-page">
       <Masthead selected={selected} onBack={handleBack} />
 
-      <main className="mx-auto w-full max-w-[1400px] px-5 md:px-10">
+      <main className="mx-auto w-full max-w-[1700px] px-5 md:px-10">
         <section key={selected ?? 'us'} className="fade-in pt-4 pb-10 md:pt-6 md:pb-14">
           {selectedInfo ? (
             <StateHero info={selectedInfo} />
           ) : (
-            <>
-              <div className="mx-auto max-w-prose md:mx-0">
+            <div className="mx-auto max-w-[1200px]">
+              <div className="max-w-prose">
                 <h1 className="font-serif text-3xl font-semibold leading-tight tracking-tighter text-ink-50 md:text-[44px]">
                   Where America&rsquo;s lines are being redrawn
                 </h1>
@@ -90,7 +90,7 @@ export function App() {
               <div className="mt-5">
                 <Legend />
               </div>
-            </>
+            </div>
           )}
         </section>
 
@@ -114,7 +114,7 @@ function Masthead({
   onBack: () => void;
 }) {
   return (
-    <header className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 pt-5 md:px-10 md:pt-7">
+    <header className="mx-auto flex w-full max-w-[1700px] items-center justify-between px-5 pt-5 md:px-10 md:pt-7">
       {selected ? (
         <button type="button" onClick={onBack} className="btn-back" aria-label="Back to US map">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -144,7 +144,7 @@ function Footer() {
   return (
     <footer className="mt-auto">
       <hr className="hairline" aria-hidden />
-      <div className="mx-auto max-w-[1400px] px-5 py-6 text-xs text-ink-500 md:px-10">
+      <div className="mx-auto max-w-[1700px] px-5 py-6 text-xs text-ink-500 md:px-10">
         <p className="max-w-prose">
           District boundaries via Jeffrey B. Lewis&rsquo; GIS collection. Seat counts and per-district
           party expectations are stylized; news descriptions are editorial. Click any item&rsquo;s source
