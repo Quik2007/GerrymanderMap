@@ -72,6 +72,7 @@ body {
 .font-serif {
   font-family: var(--font-serif);
   letter-spacing: -0.005em;
+  text-rendering: geometricPrecision;
 }
 
 h1,
@@ -79,6 +80,7 @@ h2,
 h3 {
   font-family: var(--font-serif);
   letter-spacing: -0.012em;
+  text-rendering: geometricPrecision;
 }
 
 /* A single thin divider used between major sections of the page */

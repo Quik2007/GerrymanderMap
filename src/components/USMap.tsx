@@ -114,6 +114,7 @@ export function USMap({ selected, onSelect }: Props) {
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         className="block h-auto w-full"
         style={{ touchAction: 'manipulation' }}
+        shapeRendering="geometricPrecision"
         role="img"
         aria-label="Interactive map of US states with 2024-2026 redistricting status"
       >

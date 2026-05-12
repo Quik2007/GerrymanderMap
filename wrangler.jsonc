@@ -9,6 +9,10 @@
     "directory": "./dist",
     "not_found_handling": "single-page-application"
   },
+  "routes": [
+    { "pattern": "mandertracker.com", "custom_domain": true },
+    { "pattern": "www.mandertracker.com", "custom_domain": true }
+  ],
   "observability": {
     "enabled": true
   }

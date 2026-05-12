@@ -72,6 +72,7 @@ export function DistrictMap({ topology, parties, compareTo, title, subtitle, sea
         <svg
           viewBox={`0 0 ${W} ${H}`}
           className="block h-auto w-full"
+          shapeRendering="geometricPrecision"
           role="img"
           aria-label={`${title} district map`}
         >

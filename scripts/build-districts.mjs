@@ -51,10 +51,12 @@ async function fetchToFile(url, dest) {
   return buf.length;
 }
 
-function runMapshaper(input, output, simplifyPct = 6) {
+function runMapshaper(input, output, simplifyPct = 12) {
   // - simplify with Visvalingam, keep small shapes (low-pop districts)
   // - drop unused properties
   // - emit TopoJSON for ~5–10x size reduction over GeoJSON
+  // 12% retains enough curvature detail to look smooth at retina/4K
+  // pixel densities while still gzipping small (~15-30 KB per state)
   const cmd = [
     'npx', '--yes', 'mapshaper',
     JSON.stringify(input),
