@@ -14,6 +14,18 @@ export const STATES_WITH_REAL_MAPS = new Set([
   'LA',
   'GA',
   'OH',
+  'FL',
+  'TN',
+  'MO',
+  'UT',
+  'IL',
+  'IN',
+  'KS',
+  'MD',
+  'NM',
+  'SC',
+  'VA',
+  'WI',
 ]);
 
 interface Props {
@@ -94,7 +106,7 @@ export function BeforeAfterMaps({ info }: Props) {
             parties={info.before.districts}
             compareTo={info.after.districts}
             title="Before"
-            subtitle="Previous congressional map · 117th Congress"
+            subtitle="Previous map · pre-cycle boundaries"
             seats={info.before.seats}
           />
           <DistrictMap
@@ -102,12 +114,20 @@ export function BeforeAfterMaps({ info }: Props) {
             parties={info.after.districts}
             compareTo={info.before.districts}
             title="After"
-            subtitle="Current map · 119th Congress"
+            subtitle={
+              info.status === 'failed'
+                ? 'No change · effort blocked'
+                : info.status === 'planned'
+                  ? 'Projected · map in progress'
+                  : 'Current map · post-cycle boundaries'
+            }
             seats={info.after.seats}
           />
           <p className="text-xs text-ink-500 md:col-span-2">
             Districts that didn&rsquo;t change party between the two maps are dimmed; flipped
-            districts are at full saturation. Boundaries via Jeffrey B. Lewis&rsquo; GIS collection.
+            districts are at full saturation. Boundaries via Jeffrey B. Lewis&rsquo; GIS collection
+            (cutoff: 119th Congress). The 2025-26 mid-decade redraws are reflected in the seat
+            projection but the underlying geometry may pre-date them.
           </p>
         </>
       )}

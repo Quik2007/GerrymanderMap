@@ -157,9 +157,11 @@ function Footer() {
       <hr className="hairline mx-auto max-w-[1200px]" aria-hidden />
       <div className="mx-auto max-w-[1200px] px-5 py-6 text-xs text-ink-500 md:px-10">
         <p className="max-w-prose">
-          District boundaries via Jeffrey B. Lewis&rsquo; GIS collection. Seat counts and per-district
-          party expectations are stylized; news descriptions are editorial. Click any item&rsquo;s source
-          link for the original reporting.
+          Data verified through 2026-05-13. District boundaries via Jeffrey B. Lewis&rsquo; GIS
+          collection (119th Congress cutoff); the most recent mid-decade redraws are reflected in
+          seat projections but may pre-date the rendered boundaries. Per-district leans are
+          stylized; click any news item&rsquo;s source link for the underlying reporting or primary
+          document.
         </p>
       </div>
     </footer>
